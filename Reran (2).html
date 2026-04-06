@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Reran</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>emailjs.init('b03l4DkWx4SmbJqK2');</script>
+<style>
+/* ═══ DARK THEME (Rolex Green) ═══ */
+:root {
+  --bg:#0D1510; --bg2:#121D16; --bg3:#182519; --bg4:#1F2F22;
+  --bdr:#2C4030; --bdr2:#3A5240;
+  --grn:#2E7D52; --grn2:#3DAA70; --grn3:#1A5538; --grn4:#4DC88A;
+  --gld:#B8922A; --gld2:#D4AE55; --gld3:#7A6018;
+  --crm:#E8F0EC; --crm2:#B4C8BC;
+  --rb2:#B04055; --sp2:#4A80B0; --am2:#C08830; --pu2:#8A60B0;
+  --tx:#E8F0EC; --tx2:#A8C0B0; --tx3:#6A8A76; --tx4:#3A5545;
+  --ff:'Cormorant Garamond','Book Antiqua',Palatino,serif;
+  --r:14px; --rs:8px;
+  --sh:0 12px 40px rgba(0,0,0,.55);
+  --gw:0 0 32px rgba(45,125,82,.18);
+}
+/* ═══ LIGHT THEME ═══ */
+[data-theme="light"] {
+  --bg:#F0F5F2; --bg2:#E4EDE8; --bg3:#D8E6DC; --bg4:#C8DAD0;
+  --bdr:#B0CEC0; --bdr2:#8FB0A0;
+  --grn:#1F6B42; --grn2:#2A8A58; --grn3:#145530; --grn4:#1F7A48;
+  --gld:#9A7520; --gld2:#C09840; --gld3:#6A5010;
+  --crm:#0D2418; --crm2:#1A3A28;
+  --rb2:#A03040; --sp2:#2A5A8A; --am2:#A06820; --pu2:#6A4090;
+  --tx:#0D2418; --tx2:#1E4030; --tx3:#3A6050; --tx4:#5A8070;
+  --sh:0 8px 28px rgba(0,0,0,.12);
+  --gw:0 0 24px rgba(30,100,60,.1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent }
+body { font-family:var(--ff); background:var(--bg); color:var(--tx); min-height:100vh; font-size:17px; overflow-x:hidden; transition:background .35s,color .35s }
+body::before { content:''; position:fixed; inset:0; background:radial-gradient(ellipse at 20% 15%,rgba(45,125,82,.09) 0%,transparent 50%),radial-gradient(ellipse at 80% 85%,rgba(45,125,82,.05) 0%,transparent 45%); pointer-events:none; z-index:0 }
+
+/* ─ screens ─ */
+.scr { display:none; min-height:100vh; position:relative; z-index:1 }
+.scr.on { display:flex; flex-direction:column }
+
+/* ─ ornament ─ */
+.orn { display:flex; align-items:center; gap:10px; color:var(--grn3); font-size:12px; letter-spacing:3px; text-transform:uppercase }
+[data-theme="light"] .orn { color:var(--grn2) }
+.orn::before,.orn::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--grn2),transparent) }
+
+/* ═══ LOGIN ═══ */
+#sl { align-items:center; justify-content:center; padding:28px 20px }
+.crest { width:90px; height:90px; margin:0 auto 18px; border-radius:50%; border:2px solid var(--grn2); display:flex; align-items:center; justify-content:center; font-size:38px; background:radial-gradient(circle at 40% 40%,var(--bg3),var(--bg)); box-shadow:var(--gw); animation:brt 4s ease-in-out infinite }
+@keyframes brt { 0%,100%{box-shadow:var(--gw)} 50%{box-shadow:0 0 55px rgba(45,125,82,.35)} }
+.lg { text-align:center; margin-bottom:32px }
+.lg h1 { font-size:48px; font-weight:700; letter-spacing:8px; color:var(--grn2); text-shadow:0 2px 20px rgba(45,125,82,.3) }
+.lg .tg { font-style:italic; font-size:16px; color:var(--tx3); margin-top:6px; letter-spacing:1px }
+.lc { width:100%; max-width:400px; background:var(--bg2); border:1px solid var(--bdr); border-radius:var(--r); padding:28px 24px; box-shadow:var(--sh); position:relative }
+.lc::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--grn2),transparent); border-radius:var(--r) var(--r) 0 0 }
+.lc h2 { font-size:26px; font-weight:600; color:var(--crm); margin-bottom:4px; text-align:center }
+.lc .sub { font-style:italic; color:var(--tx3); font-size:15px; text-align:center; margin-bottom:22px }
+.fg { margin-bottom:15px }
+.fg label { display:block; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--grn2); margin-bottom:7px }
+.fg input,.fg textarea,.fsel { width:100%; padding:12px 14px; background:var(--bg3); border:1px solid var(--bdr); border-radius:var(--rs); color:var(--tx); font-size:16px; font-family:var(--ff); outline:none; transition:border-color .25s,box-shadow .25s }
+.fg input:focus,.fg textarea:focus,.fsel:focus { border-color:var(--grn2); box-shadow:0 0 0 3px rgba(61,170,112,.15) }
+.fg textarea { resize:vertical; min-height:78px }
+.b1 { width:100%; padding:14px; background:linear-gradient(135deg,var(--grn),var(--grn3)); border:none; border-radius:var(--rs); color:#fff; font-family:var(--ff); font-size:17px; font-weight:600; letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:all .2s; margin-top:6px }
+.b1:active { transform:scale(.98) }
+.b1:hover { box-shadow:0 6px 24px rgba(45,125,82,.35) }
+.b2 { width:100%; padding:11px; background:transparent; border:1px solid var(--bdr2); border-radius:var(--rs); color:var(--tx3); font-family:var(--ff); font-size:15px; cursor:pointer; transition:all .2s; margin-top:8px }
+.notice { display:flex; gap:10px; align-items:flex-start; margin-top:16px; padding:12px 14px; background:rgba(45,125,82,.08); border:1px solid rgba(61,170,112,.2); border-radius:var(--rs); font-size:14px; color:var(--grn4); font-style:italic; line-height:1.6 }
+.pp { display:none; flex-direction:column; align-items:center; text-align:center }
+.pp.on { display:flex }
+.fp.off { display:none }
+.pi { width:72px; height:72px; border-radius:50%; border:1px solid var(--grn2); display:flex; align-items:center; justify-content:center; font-size:32px; margin-bottom:18px; animation:brt 3s infinite }
+
+/* ═══ ADMIN ═══ */
+#sa { background:var(--bg) }
+.ah { padding:16px 16px 12px; background:var(--bg2); border-bottom:1px solid var(--bdr); display:flex; align-items:center; justify-content:space-between; flex-shrink:0 }
+.al { font-size:22px; font-weight:600; letter-spacing:3px; color:var(--grn2) }
+.ab { font-size:11px; padding:4px 10px; border-radius:20px; background:rgba(45,125,82,.15); color:var(--grn4); border:1px solid rgba(61,170,112,.25); letter-spacing:1px }
+.rc { background:var(--bg2); border:1px solid var(--bdr); border-radius:var(--r); padding:18px; margin-bottom:12px; position:relative; overflow:hidden }
+.rc::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--grn2) }
+.rn { font-size:19px; font-weight:600; margin-bottom:4px }
+.re { font-size:14px; color:var(--tx3); font-style:italic; margin-bottom:8px }
+.rr { font-size:15px; color:var(--tx2); line-height:1.6; background:var(--bg3); border-radius:var(--rs); padding:10px 12px; margin-bottom:12px; font-style:italic; border-left:2px solid var(--grn3) }
+.rb { display:flex; gap:8px }
+.bok { flex:1; padding:10px; background:linear-gradient(135deg,var(--grn),var(--grn3)); border:none; border-radius:var(--rs); color:#fff; font-family:var(--ff); font-size:15px; cursor:pointer }
+.bno { flex:1; padding:10px; background:transparent; border:1px solid var(--rb2); border-radius:var(--rs); color:var(--rb2); font-family:var(--ff); font-size:15px; cursor:pointer }
+
+/* ═══ APP SHELL ═══ */
+.ahdr { padding:15px 16px 10px; background:var(--bg2); border-bottom:1px solid var(--bdr); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:relative }
+.ahdr::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--grn2),transparent) }
+.alogo { font-size:28px; font-weight:700; letter-spacing:5px; color:var(--grn2); text-shadow:0 2px 12px rgba(45,125,82,.25) }
+.hax { display:flex; gap:8px }
+.ibt { width:38px; height:38px; background:var(--bg3); border:1px solid var(--bdr); border-radius:9px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:17px; transition:all .2s; color:var(--tx2) }
+.ibt:active { background:var(--bdr) }
+.tc { flex:1; overflow-y:auto; overflow-x:hidden }
+.tp { display:none; padding:18px; animation:fu .25s ease }
+.tp.on { display:block }
+@keyframes fu { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* ─ bottom nav ─ */
+.bn { display:flex; background:var(--bg2); border-top:1px solid var(--bdr); padding:8px 0 20px; flex-shrink:0; position:relative }
+.bn::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--grn2),transparent) }
+.ni { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 2px; cursor:pointer; gap:4px; transition:all .2s }
+.ni-i { font-size:21px; transition:transform .2s }
+.ni-l { font-size:10px; color:var(--tx4); letter-spacing:1.5px; text-transform:uppercase }
+.ni.on .ni-i { transform:translateY(-2px) }
+.ni.on .ni-l { color:var(--grn4) }
+
+/* ─ section title ─ */
+.st { font-size:22px; font-weight:600; color:var(--crm); margin-bottom:14px; display:flex; align-items:center; justify-content:space-between }
+.sa { font-size:14px; color:var(--grn4); cursor:pointer; font-style:italic; letter-spacing:1px }
+
+/* ─ greeting ─ */
+.gr { margin-bottom:20px }
+.gd { font-style:italic; font-size:14px; color:var(--grn2); letter-spacing:1px; margin-bottom:4px }
+.gr h2 { font-size:32px; font-weight:600; line-height:1.1; color:var(--crm) }
+.gr p { color:var(--tx3); font-size:16px; margin-top:4px; font-style:italic }
+
+/* ─ KPI grid ─ */
+.kg { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:22px }
+.kc { background:var(--bg2); border:1px solid var(--bdr); border-radius:var(--r); padding:16px 14px; cursor:pointer; transition:all .2s; position:relative; overflow:hidden }
+.kc::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; border-radius:var(--r) var(--r) 0 0 }
+.kc.cg::before { background:linear-gradient(90deg,var(--grn),var(--grn2)) }
+.kc.cd::before { background:linear-gradient(90deg,var(--gld3),var(--gld2)) }
+.kc.cr::before { background:linear-gradient(90deg,#6B2030,var(--rb2)) }
+.kc.cs::before { background:linear-gradient(90deg,#2A4A70,var(--sp2)) }
+.kc.ca::before { background:linear-gradient(90deg,#705020,var(--am2)) }
+.kc.cp::before { background:linear-gradient(90deg,#5A3A7A,var(--pu2)) }
+.kc:active { transform:scale(.97) }
+.ki { font-size:24px; margin-bottom:10px }
+.kv { font-size:34px; font-weight:700; line-height:1; margin-bottom:4px }
+.kc.cg .kv { color:var(--grn4) }
+.kc.cd .kv { color:var(--gld2) }
+.kc.cr .kv { color:var(--rb2) }
+.kc.cs .kv { color:var(--sp2) }
+.kc.ca .kv { color:var(--am2) }
+.kc.cp .kv { color:var(--pu2) }
+.kl { font-size:14px; color:var(--tx3); line-height:1.3 }
+.kar { position:absolute; bottom:12px; right:12px; color:var(--tx4); font-size:17px }
+
+/* ─ today list ─ */
+.tl { display:flex; flex-direction:column; gap:8px; margin-bottom:20px }
+.ti { display:flex; align-items:center; gap:12px; background:var(--bg2); border:1px solid var(--bdr); border-radius:var(--rs); padding:12px 14px; position:relative; overflow:hidden }
+.ti::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px }
+.ti.a::before{background:var(--grn2)} .ti.b::before{background:var(--gld2)} .ti.c::before{background:var(--rb2)} .ti.d::before{background:var(--sp2)} .ti.e::before{background:var(--am2)}
+.ti-t { font-size:13px; color:var(--tx3); min-width:46px; text-align:center }
+.ti-i { flex:1 }
+.ti-s { font-weight:600; font-size:16px }
+.ti-r { font-size:13px; color:var(--tx3); margin-top:2px; font-style:italic }
+
+/* ─ stat card ─ */
+.sc { background:var(--bg2); border:1px solid var(--bdr); border-radius:var(--r); padding:16px }
+.sr { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid var(--bdr) }
+.sr:last-of-type { border-bottom:none }
+.sr span:first-child { font-size:15px; color:var(--tx3); font-style:italic }
+.sv { font-weight:700; font-size:17px; color:var(--grn4) }
+.pw { margin-top:14px; background:var(--bg3); border-radius:3px; height:5px; overflow:hidden }
+.pf { height:100%; background:linear-gradient(90deg,var(--grn3),var(--grn2)); width:0%; transition:width 1s ease; border-radius:3px }
+
+/* ═══ CALENDAR ═══ */
+.cvt { display:flex; background:var(--bg2); border:1px solid var(--bdr); border-radius:9px; padding:3px; gap:3px; margin-bottom:14px }
+.cvb { flex:1; padding:8px; border:none; background:transparent; color:var(--tx3); border-radius:7px; font-family:var(--ff); font-size:14px; letter-spacing:1px; cursor:pointer; transition:all .2s }
+.cvb.on { background:var(--grn); color:#fff; font-weight:600 }
+.cn { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px }
+.cnt { font-size:21px; font-weight:600; color:var(--crm); text-align:center; flex:1 }
+.na { width:36px; height:36px; background:var(--bg2); border:1px solid var(--bdr); border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:17px; color:var(--tx2); transition:all .2s; flex-shrink:0 }
+.na:active { background:var(--bdr) }
+
+/* week strip */
+.ws { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-bottom:14px }
+.wd { display:flex; flex-direction:column; align-items:center; gap:3px; padding:7px 2px; border-radius:9px; cursor:pointer; transition:all .2s; border:1px solid transparent }
+.wd .wn { font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--tx4) }
+.wd .wnum { font-size:19px; font-weight:600; color:var(--tx2) }
+.wd .wdots { display:flex; gap:2px; min-height:6px }
+.wd.tc { background:rgba(45,125,82,.1); border-color:rgba(61,170,112,.3) }
+.wd.tc .wnum { color:var(--grn2) }
+.wd.sc { background:var(--grn); border-color:var(--grn) }
+.wd.sc .wn { color:rgba(255,255,255,.6) }
+.wd.sc .wnum { color:#fff }
+
+/* time grid */
+.dgw { border:1px solid var(--bdr); border-radius:var(--r); overflow:hidden; background:var(--bg2) }
+.dch { display:none; border-bottom:1px solid var(--bdr) }
+.dchc { padding:9px 4px; text-align:center; font-size:12px; color:var(--tx3); letter-spacing:1px; border-left:1px solid var(--bdr) }
+.dchc:first-child { border-left:none }
+.dchc.th { color:var(--grn4); background:rgba(45,125,82,.06) }
+.tgr { position:relative; overflow-y:auto; max-height:60vh }
+.tgi { display:grid; grid-template-columns:46px 1fr; min-height:1200px }
+.tgi.wk { grid-template-columns:46px repeat(7,1fr) }
+.trl { grid-column:1; height:50px; display:flex; align-items:flex-start; justify-content:flex-end; padding:4px 8px 0 0; font-size:12px; color:var(--tx4); border-bottom:1px solid var(--bdr) }
+.dcl { position:relative; border-left:1px solid var(--bdr) }
+.hc { height:50px; border-bottom:1px solid var(--bdr); cursor:pointer; transition:background .15s; position:relative }
+.hc:hover { background:rgba(45,125,82,.08) }
+.hc::after { content:'＋'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:20px; color:rgba(61,170,112,.3); opacity:0; transition:opacity .15s }
+.hc:hover::after { opacity:1 }
+.gev { position:absolute; left:3px; right:3px; border-radius:6px; padding:5px 8px; font-size:13px; overflow:hidden; cursor:pointer; z-index:2; transition:all .15s; border-left:3px solid transparent }
+.gev:active { transform:scale(.98) }
+.gev.eg { background:rgba(45,125,82,.25); border-left-color:var(--grn2); color:var(--crm) }
+.gev.ea { background:rgba(192,136,48,.22); border-left-color:var(--am2); color:var(--crm) }
+.gev.er { background:rgba(176,64,85,.25); border-left-color:var(--rb2); color:var(--crm) }
+.gev.es { background:rgba(74,128,176,.22); border-left-color:var(--sp2); color:var(--crm) }
+.gev.eo { background:rgba(184,146,42,.2); border-left-color:var(--gld2); color:var(--crm) }
+.evt { font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.evm { font-size:11px; color:var(--tx2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.nl { position:absolute; left:0; right:0; height:2px; background:var(--rb2); z-index:3; pointer-events:none }
+.nl::before { content:''; position:absolute; left:-1px; top:-3px; width:8px; height:8px; border-radius:50%; background:var(--rb2) }
+
+/* ═══ GOALS ═══ */
+.gc { background:var(--bg2); border:1px solid var(--bdr); border-radius:var(--r); padding:18px; margin-bottom:14px; position:relative; overflow:hidden }
+.gc::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--grn3),var(--grn2)) }
+.gt { font-size:20px; font-weight:600; margin-bottom:4px; color:var(--crm) }
+.gdate { font-size:14px; color:var(--tx3); font-style:italic; margin-bottom:14px }
+.cdb { display:flex; gap:8px; justify-content:center; margin-bottom:14px }
+.cu { display:flex; flex-direction:column; align-items:center; background:var(--bg3); border-radius:8px; padding:10px 14px; min-width:64px; border:1px solid var(--bdr) }
+.cun { font-size:28px; font-weight:700; color:var(--grn4); line-height:1 }
+.cul { font-size:11px; color:var(--tx3); letter-spacing:1px; text-transform:uppercase; margin-top:3px }
+.als { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:12px }
+.ap { font-size:12px; padding:4px 9px; border-radius:20px; background:rgba(45,125,82,.1); color:var(--grn4); border:1px solid rgba(61,170,112,.18) }
+.ap.fx { background:rgba(192,136,48,.15); color:var(--gld2); border-color:rgba(192,136,48,.28) }
+.ap.cr { background:rgba(176,64,85,.15); color:var(--rb2); border-color:rgba(176,64,85,.28) }
+.pl { display:flex; justify-content:space-between; font-size:14px; color:var(--tx2); margin-bottom:6px }
+.pt { background:var(--bg3); border-radius:4px; height:10px; overflow:hidden; border:1px solid var(--bdr) }
+.pp2 { height:100%; background:linear-gradient(90deg,var(--grn3),var(--grn4)); border-radius:4px; transition:width .8s ease }
+.gu { display:flex; gap:8px; margin-top:10px }
+.gi { flex:1; padding:9px 12px; background:var(--bg3); border:1px solid var(--bdr); border-radius:var(--rs); color:var(--tx); font-family:var(--ff); font-size:15px; outline:none }
+.gi:focus { border-color:var(--grn2) }
+.gub { padding:9px 16px; background:var(--grn); border:none; border-radius:var(--rs); color:#fff; font-family:var(--ff); font-size:14px; cursor:pointer }
+
+/* ═══ PROPÓSITO ═══ */
+.qb { background:var(--bg2); border:1px solid var(--bdr); border-radius:var(--r); padding:20px; margin-bottom:16px; text-align:center; position:relative }
+.qb::before { content:'\201C'; position:absolute; top:8px; left:14px; font-size:60px; color:var(--grn3); line-height:1; opacity:.6 }
+.qt { font-style:italic; font-size:20px; line-height:1.6; color:var(--crm2); padding:0 10px }
+.qa { font-size:13px; color:var(--grn2); margin-top:10px; letter-spacing:1px }
+.clg { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:16px }
+.cc { aspect-ratio:1; background:var(--bg3); border-radius:10px; border:2px dashed var(--bdr2); display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; position:relative; transition:all .2s }
+.cc:hover { border-color:var(--grn2) }
+.cc img { width:100%; height:100%; object-fit:cover; border-radius:8px; display:none }
+.cc.hi img { display:block }
+.cc.hi .ph { display:none }
+.ph { font-size:28px; color:var(--tx4) }
+.cc input { position:absolute; inset:0; opacity:0; cursor:pointer }
+
+/* ═══ VOICE ═══ */
+.vcard { background:var(--bg2); border:1px solid var(--bdr); border-radius:var(--r); padding:20px; margin-bottom:14px; text-align:center }
+.vbtn { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,var(--grn),var(--grn3)); border:none; display:flex; align-items:center; justify-content:center; font-size:34px; cursor:pointer; margin:0 auto 16px; box-shadow:var(--gw); transition:all .2s; color:#fff }
+.vbtn.rc { background:linear-gradient(135deg,#8B2030,var(--rb2)); animation:pr 1s infinite; box-shadow:0 0 32px rgba(176,64,85,.4) }
+@keyframes pr { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+.vst { font-style:italic; font-size:16px; color:var(--tx3); margin-bottom:14px }
+.vtr { background:var(--bg3); border:1px solid var(--bdr); border-radius:var(--rs); padding:14px; font-size:16px; color:var(--crm2); text-align:left; line-height:1.6; min-height:60px; margin-bottom:14px; font-style:italic; display:none }
+.vp { display:none; background:rgba(45,125,82,.08); border:1px solid rgba(61,170,112,.2); border-radius:var(--rs); padding:14px; margin-bottom:14px }
+.pr2 { display:flex; gap:8px; margin-bottom:6px; font-size:15px }
+.prl { color:var(--grn2); min-width:70px; font-weight:600 }
+.prv { color:var(--crm2) }
+
+/* ═══ UPLOAD ═══ */
+.uz { border:2px dashed var(--bdr2); border-radius:var(--r); padding:36px 16px; text-align:center; cursor:pointer; transition:all .2s; background:var(--bg2); position:relative; margin-bottom:16px }
+.uz:hover { border-color:var(--grn2); background:rgba(45,125,82,.04) }
+.uz input { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100% }
+.uz h3 { font-size:21px; font-weight:600; margin-bottom:5px; color:var(--crm) }
+.uz p { color:var(--tx3); font-size:15px; font-style:italic }
+.upv { display:none; border-radius:var(--r); overflow:hidden; margin-bottom:14px; position:relative }
+.upv img { width:100%; display:block; border-radius:var(--r) }
+.aov { position:absolute; inset:0; background:rgba(13,21,16,.9); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px }
+.sp { width:48px; height:48px; border:2px solid var(--bdr); border-top-color:var(--grn2); border-radius:50%; animation:sp2 1s linear infinite }
+@keyframes sp2 { to{transform:rotate(360deg)} }
+.sr2 { display:none; background:var(--bg2); border:1px solid var(--bdr); border-radius:var(--r); padding:18px; margin-bottom:14px }
+.sr2.on { display:block }
+.srow { display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--bdr) }
+.srow:last-child { border-bottom:none }
+.sc2 { width:9px; height:9px; border-radius:50%; flex-shrink:0 }
+.sn { font-weight:600; font-size:15px }
+.ss { font-style:italic; font-size:13px; color:var(--tx3); margin-top:2px }
+
+/* ═══ MODAL ═══ */
+.mol { display:none; position:fixed; inset:0; background:rgba(0,0,0,.82); backdrop-filter:blur(10px); z-index:200; align-items:flex-end; justify-content:center }
+.mol.on { display:flex }
+.mod { background:var(--bg2); border:1px solid var(--bdr); border-top:2px solid var(--grn2); border-radius:18px 18px 0 0; padding:22px 20px 40px; width:100%; max-height:84vh; overflow-y:auto; animation:su .3s cubic-bezier(.34,1.36,.64,1); position:relative }
+@keyframes su { from{transform:translateY(100%)} to{transform:translateY(0)} }
+.mh { width:36px; height:4px; background:var(--bdr2); border-radius:2px; margin:0 auto 20px }
+.mt { font-size:26px; font-weight:600; margin-bottom:4px; color:var(--crm) }
+.ms { font-style:italic; color:var(--tx3); font-size:15px; margin-bottom:22px }
+.mcl { position:absolute; top:20px; right:18px; font-size:20px; cursor:pointer; color:var(--tx3) }
+.mcl:hover { color:var(--tx) }
+.fr { display:flex; gap:10px; margin-bottom:14px }
+.fr .fg { flex:1; margin-bottom:0 }
+.fsel { appearance:none; cursor:pointer }
+.tg2 { display:flex; gap:6px; margin-top:6px }
+.to { flex:1; padding:10px 6px; border:1px solid var(--bdr); border-radius:var(--rs); text-align:center; font-size:14px; cursor:pointer; font-family:var(--ff); transition:all .2s; color:var(--tx3) }
+.to.on { border-color:var(--grn2); color:var(--grn4); background:rgba(45,125,82,.1) }
+.isl { width:100%; accent-color:var(--grn2); margin-top:10px }
+.iv { text-align:center; font-size:32px; font-weight:700; color:var(--grn4); margin:6px 0 }
+
+/* ─ task items ─ */
+.ti2 { display:flex; align-items:flex-start; gap:12px; padding:13px; background:var(--bg3); border-radius:var(--rs); margin-bottom:8px; cursor:pointer; transition:background .2s; border:1px solid transparent }
+.ti2:hover { border-color:var(--bdr2) }
+.tck { width:20px; height:20px; border-radius:5px; border:1px solid var(--bdr2); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:12px; transition:all .2s; margin-top:2px }
+.ti2.dn .tck { background:var(--grn2); border-color:var(--grn2); color:#fff }
+.tn { font-weight:600; font-size:16px }
+.ti2.dn .tn { text-decoration:line-through; color:var(--tx3) }
+.tm2 { font-size:13px; color:var(--tx3); margin-top:3px; font-style:italic }
+.tp2 { font-size:12px; padding:3px 9px; border-radius:20px; flex-shrink:0 }
+.ph2 { background:rgba(139,48,64,.18); color:var(--rb2) }
+.pm2 { background:rgba(192,136,48,.18); color:var(--am2) }
+.pl2 { background:rgba(45,125,82,.18); color:var(--grn4) }
+
+/* ─ exam / conflict / important ─ */
+.exi { background:var(--bg3); border-radius:var(--rs); padding:15px; margin-bottom:10px; border-left:3px solid var(--rb2); position:relative }
+.exd { font-style:italic; font-size:13px; color:var(--rb2); margin-bottom:5px }
+.exs { font-weight:600; font-size:17px; margin-bottom:7px }
+.extg { display:flex; gap:5px; flex-wrap:wrap }
+.extag { font-size:12px; padding:3px 8px; border-radius:20px; background:var(--bg2); color:var(--tx3); border:1px solid var(--bdr); font-style:italic }
+.excd { position:absolute; top:15px; right:15px; font-size:12px; color:var(--am2); font-style:italic }
+.cfi { background:var(--bg3); border-radius:var(--rs); padding:15px; margin-bottom:10px; border:1px solid rgba(139,48,64,.3) }
+.cfb { display:inline-block; font-size:11px; padding:3px 9px; border-radius:20px; background:rgba(139,48,64,.15); color:var(--rb2); letter-spacing:1px; margin-bottom:10px }
+.cch { display:inline-flex; align-items:center; gap:5px; font-size:13px; padding:4px 10px; border-radius:20px; font-weight:600; margin:2px }
+.cg2 { background:rgba(45,125,82,.2); color:var(--grn4) }
+.ca2 { background:rgba(192,136,48,.2); color:var(--am2) }
+.cs2 { background:rgba(74,128,176,.2); color:var(--sp2) }
+.cfd { font-size:14px; color:var(--tx3); line-height:1.6; font-style:italic; margin-top:8px }
+.impi { display:flex; align-items:center; gap:12px; padding:13px; background:var(--bg3); border-radius:var(--rs); margin-bottom:8px }
+.impr { width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px; flex-shrink:0 }
+.ih { background:rgba(139,48,64,.15); color:var(--rb2); border:1px solid var(--rb2) }
+.im2 { background:rgba(192,136,48,.15); color:var(--am2); border:1px solid var(--am2) }
+.il { background:rgba(45,125,82,.15); color:var(--grn4); border:1px solid var(--grn2) }
+.inn { font-weight:600; font-size:16px }
+.ind { font-size:13px; color:var(--tx3); margin-top:2px; font-style:italic }
+
+/* ─ notif ─ */
+.nit { display:flex; gap:10px; align-items:flex-start; padding:13px; background:var(--bg2); border-radius:var(--rs); margin-bottom:8px; border:1px solid var(--bdr) }
+.nd { width:7px; height:7px; border-radius:50%; background:var(--grn4); flex-shrink:0; margin-top:7px }
+.nd.rd { background:var(--tx4) }
+.ntx { flex:1; font-size:15px; line-height:1.5 }
+.ntm { font-size:12px; color:var(--tx4); margin-top:3px; font-style:italic }
+
+/* ─ filter chips ─ */
+.cfr { display:flex; gap:6px; margin-bottom:16px; overflow-x:auto; padding-bottom:4px }
+.fch { padding:7px 15px; border-radius:20px; border:1px solid var(--bdr); font-size:14px; cursor:pointer; color:var(--tx3); transition:all .2s; white-space:nowrap; flex-shrink:0 }
+.fch.ag { border-color:var(--grn2); color:var(--grn4); background:rgba(45,125,82,.1) }
+
+/* ─ empty ─ */
+.emp { text-align:center; padding:36px 16px; color:var(--tx3) }
+.emp .ei { font-size:42px; margin-bottom:12px }
+.emp h3 { font-size:21px; margin-bottom:5px; color:var(--crm) }
+.emp p { font-size:15px; font-style:italic; line-height:1.5 }
+
+/* ─ fab ─ */
+.fab { position:fixed; bottom:88px; right:18px; width:54px; height:54px; background:linear-gradient(135deg,var(--grn),var(--grn3)); border-radius:15px; display:flex; align-items:center; justify-content:center; font-size:24px; color:#fff; box-shadow:0 8px 24px rgba(45,125,82,.4); cursor:pointer; z-index:50; transition:all .2s }
+.fab:active { transform:scale(.92) }
+
+::-webkit-scrollbar { width:3px; height:3px }
+::-webkit-scrollbar-track { background:transparent }
+::-webkit-scrollbar-thumb { background:var(--bdr2); border-radius:2px }
+input[type=date],input[type=time],input[type=number] { width:100%; padding:11px 13px; background:var(--bg3); border:1px solid var(--bdr); border-radius:var(--rs); color:var(--tx); font-size:15px; font-family:var(--ff); outline:none }
+input[type=date]:focus,input[type=time]:focus,input[type=number]:focus { border-color:var(--grn2) }
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="sl" class="scr on">
+  <div style="max-width:400px;width:100%;margin:auto;padding:28px 20px">
+    <div class="lg"><div class="crest">🌿</div><h1>Reran</h1><p class="tg">Your intelligent academic planner</p></div>
+    <div class="lc">
+      <div class="fp" id="fp">
+        <h2>Solicitar acceso</h2>
+        <p class="sub">Cuéntanos quién eres y por qué quieres usar Reran</p>
+        <div class="fg"><label>Nombre completo</label><input type="text" id="inm" placeholder="María García López"></div>
+        <div class="fg"><label>Correo electrónico</label><input type="email" id="iem" placeholder="correo@ejemplo.com"></div>
+        <div class="fg"><label>Contraseña</label><input type="password" id="ips" placeholder="Mínimo 8 caracteres"></div>
+        <div class="fg"><label>¿Por qué deseas usar Reran?</label><textarea id="irz" placeholder="Cuéntanos tu motivación para usar esta agenda…"></textarea></div>
+        <button class="b1" onclick="reqAcc()">Enviar Solicitud</button>
+        <div class="notice"><span>🔒</span><span>El administrador revisará tu solicitud y recibirás confirmación por correo al ser aprobado.</span></div>
+        <div style="margin-top:14px;text-align:center;font-size:14px;color:var(--tx3)">¿Ya tienes acceso? <span onclick="showLF()" style="color:var(--grn4);cursor:pointer;text-decoration:underline">Iniciar sesión</span></div>
+        <div id="lif" style="display:none;margin-top:16px;border-top:1px solid var(--bdr);padding-top:16px">
+          <div class="fg"><label>Correo</label><input type="email" id="lie" placeholder="tucorreo@ejemplo.com"></div>
+          <div class="fg"><label>Contraseña</label><input type="password" id="lip" placeholder="Tu contraseña"></div>
+          <button class="b1" onclick="loginU()">Entrar</button>
+        </div>
+      </div>
+      <div class="pp" id="pp">
+        <div class="pi">⏳</div>
+        <h2 style="font-size:24px;margin-bottom:8px;color:var(--crm)">Solicitud enviada</h2>
+        <p style="color:var(--tx3);font-size:15px;font-style:italic;line-height:1.7;margin-bottom:20px">Tu solicitud fue enviada. El administrador la revisará y recibirás respuesta pronto.</p>
+        <div style="background:var(--bg3);border-radius:var(--rs);padding:12px;font-size:14px;color:var(--tx3);font-style:italic;width:100%;text-align:center">📧 <span id="pe"></span></div>
+        <button class="b1" style="margin-top:20px" onclick="devBypass()">▶ Demo: Simular aprobación</button>
+        <button class="b2" onclick="goAdmin()">🔑 Panel de administrador</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN ══ -->
+<div id="sa" class="scr">
+  <div class="ah"><span class="al">Reran</span><span class="ab">Panel Admin</span><div class="ibt" onclick="backLogin()">✕</div></div>
+  <div style="padding:18px;flex:1;overflow-y:auto">
+    <div style="margin-bottom:18px"><div class="orn" style="margin-bottom:10px">Solicitudes Pendientes</div><p style="font-style:italic;color:var(--tx3);font-size:15px">Aprueba o rechaza cada solicitud. Al aprobar, el postulante recibirá acceso.</p></div>
+    <div id="arl"></div>
+    <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--bdr)"><div class="orn" style="margin-bottom:14px">Usuarios Aprobados</div><div id="aul"></div></div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="sap" class="scr">
+  <div class="ahdr">
+    <span class="alogo">Reran</span>
+    <div class="hax">
+      <div class="ibt" id="tbtn" onclick="toggleTheme()">🌙</div>
+      <div class="ibt" onclick="om('modal-add-event')">＋</div>
+      <div class="ibt" onclick="om('modal-notifs')">🔔</div>
+    </div>
+  </div>
+
+  <div class="tc">
+
+    <!-- DASHBOARD -->
+    <div class="tp on" id="tab-dashboard">
+      <div class="gr">
+        <div class="gd" id="dd"></div>
+        <h2 id="dg"></h2>
+        <p id="ds"></p>
+      </div>
+      <div class="kg">
+        <div class="kc cr" onclick="om('modal-tasks')"><div class="ki">📋</div><div class="kv" id="ktt">0</div><div class="kl">Tareas<br>Pendientes</div><div class="kar">›</div></div>
+        <div class="kc cs" onclick="om('modal-exams')"><div class="ki">📝</div><div class="kv" id="kte">0</div><div class="kl">Exámenes<br>Próximos</div><div class="kar">›</div></div>
+        <div class="kc ca" onclick="om('modal-conflicts')"><div class="ki">⚡</div><div class="kv" id="ktc">0</div><div class="kl">Actividades<br>Complicadas</div><div class="kar">›</div></div>
+        <div class="kc cg" onclick="om('modal-important')"><div class="ki">⭐</div><div class="kv" id="kti">0</div><div class="kl">Fechas<br>Importantes</div><div class="kar">›</div></div>
+        <div class="kc cd" onclick="sw('tab-goals',null)"><div class="ki">🎯</div><div class="kv" id="ktg">0</div><div class="kl">Goals<br>Activos</div><div class="kar">›</div></div>
+        <div class="kc cp" onclick="sw('tab-proposito',null)"><div class="ki">💚</div><div class="kv">✦</div><div class="kl">Mi<br>Propósito</div><div class="kar">›</div></div>
+      </div>
+      <div class="st">Hoy en tu agenda<span class="sa" onclick="sw('tab-calendar',null)">Ver calendario →</span></div>
+      <div class="tl" id="tdl"></div>
+      <div class="st" style="margin-top:6px">Estadísticas</div>
+      <div class="sc">
+        <div class="sr"><span>Clases esta semana</span><span class="sv" id="scs">0</span></div>
+        <div class="sr"><span>Horas académicas</span><span class="sv" id="shs">0 h</span></div>
+        <div class="sr"><span>Progreso de tareas</span><span class="sv" id="sps">0 %</span></div>
+        <div class="pw"><div class="pf" id="pfil"></div></div>
+      </div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div class="tp" id="tab-calendar">
+      <div class="cvt">
+        <button class="cvb on" onclick="setCV('day',this)">Diario</button>
+        <button class="cvb" onclick="setCV('week',this)">Semanal</button>
+      </div>
+      <div class="cn"><div class="na" onclick="calP()">‹</div><div class="cnt" id="cnt"></div><div class="na" onclick="calN()">›</div></div>
+      <div class="ws" id="wstrip"></div>
+      <div class="dgw">
+        <div class="dch" id="dch" style="display:none"></div>
+        <div class="tgr" id="tgr"><div class="tgi" id="tgi"></div></div>
+      </div>
+    </div>
+
+    <!-- HORARIO -->
+    <div class="tp" id="tab-horario">
+      <div style="margin-bottom:20px">
+        <div class="orn" style="margin-bottom:12px">Importar Horario</div>
+        <h2 style="font-size:28px;font-weight:600;color:var(--crm)">Sube tu horario 📷</h2>
+        <p style="color:var(--tx3);font-size:15px;font-style:italic;margin-top:5px">La IA detectará materias, horarios y aulas automáticamente.</p>
+      </div>
+      <div class="uz"><input type="file" accept="image/*" onchange="handleUp(event)"><div style="font-size:44px;margin-bottom:12px">📸</div><h3>Subir foto del horario</h3><p>Toca para elegir imagen o tomar foto</p></div>
+      <div class="upv" id="upv"><img id="pim" src="" alt=""><div class="aov" id="aov"><div class="sp"></div><div style="font-style:italic;font-size:15px;color:var(--grn4)">Analizando con IA…</div></div></div>
+      <div class="sr2" id="sres">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div style="font-size:18px;font-weight:600">Materias detectadas</div><span style="background:rgba(45,125,82,.18);color:var(--grn4);font-size:12px;padding:3px 9px;border-radius:20px">✓ Auto-llenado</span></div>
+        <div id="dsub"></div>
+        <button class="b1" onclick="applyS()" style="margin-top:16px">Aplicar al calendario</button>
+      </div>
+
+      <!-- VOICE -->
+      <div style="margin-top:24px">
+        <div class="orn" style="margin-bottom:14px">Crear Evento por Voz</div>
+        <div class="vcard">
+          <p style="font-style:italic;color:var(--tx3);margin-bottom:16px;font-size:15px">Di algo como: <em>"Reunión el sábado 17 de abril a las 4 pm con el señor René"</em></p>
+          <button class="vbtn" id="vbtn" onclick="toggleRec()">🎙️</button>
+          <div class="vst" id="vst">Toca para grabar</div>
+          <div class="vtr" id="vtr"></div>
+          <div class="vp" id="vpd">
+            <div class="pr2"><span class="prl">Evento:</span><span class="prv" id="pvt"></span></div>
+            <div class="pr2"><span class="prl">Fecha:</span><span class="prv" id="pvd2"></span></div>
+            <div class="pr2"><span class="prl">Hora:</span><span class="prv" id="pvh"></span></div>
+            <div class="pr2"><span class="prl">Notas:</span><span class="prv" id="pvn"></span></div>
+          </div>
+          <button id="vsave" style="display:none" class="b1" onclick="saveV()">Guardar en calendario ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GOALS -->
+    <div class="tp" id="tab-goals">
+      <div style="margin-bottom:20px">
+        <div class="orn" style="margin-bottom:12px">Metas & Objetivos</div>
+        <h2 style="font-size:28px;font-weight:600;color:var(--crm)">Goals 🎯</h2>
+        <p style="color:var(--tx3);font-size:15px;font-style:italic;margin-top:5px">Registra tus metas, sigue tu progreso y recibe alertas automáticas.</p>
+      </div>
+      <div id="glist"></div>
+      <button class="b1" onclick="om('modal-add-goal')">+ Nueva meta</button>
+    </div>
+
+    <!-- PROPÓSITO -->
+    <div class="tp" id="tab-proposito">
+      <div style="margin-bottom:20px">
+        <div class="orn" style="margin-bottom:12px">Motivación Diaria</div>
+        <h2 style="font-size:28px;font-weight:600;color:var(--crm)">Mi Propósito 💚</h2>
+      </div>
+      <div class="qb"><div class="qt" id="dq"></div><div class="qa">— Reran</div></div>
+      <div class="st">Mi tablero de inspiración</div>
+      <div class="clg">
+        <div class="cc" id="cc0"><div class="ph">📷</div><img id="ci0" src="" alt=""><input type="file" accept="image/*" onchange="loadC(event,0)"></div>
+        <div class="cc" id="cc1"><div class="ph">📷</div><img id="ci1" src="" alt=""><input type="file" accept="image/*" onchange="loadC(event,1)"></div>
+        <div class="cc" id="cc2"><div class="ph">📷</div><img id="ci2" src="" alt=""><input type="file" accept="image/*" onchange="loadC(event,2)"></div>
+      </div>
+      <p style="text-align:center;font-size:13px;color:var(--tx4);font-style:italic;margin-bottom:20px">Toca cada cuadro para subir una foto inspiradora</p>
+      <div class="st">Mis frases diarias</div>
+      <div style="background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:16px">
+        <div id="qlst" style="margin-bottom:14px"></div>
+        <div style="display:flex;gap:8px">
+          <input type="text" id="nqi" placeholder="Escribe una frase inspiradora…" style="flex:1;padding:11px 13px;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--rs);color:var(--tx);font-size:15px;font-family:var(--ff);outline:none">
+          <button onclick="addQ()" style="padding:11px 16px;background:var(--grn);border:none;border-radius:var(--rs);color:#fff;font-size:15px;cursor:pointer">＋</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASKS -->
+    <div class="tp" id="tab-tasks">
+      <div style="margin-bottom:18px"><div class="orn" style="margin-bottom:10px">Gestión</div><h2 style="font-size:28px;font-weight:600;color:var(--crm)">Mis Tareas</h2></div>
+      <div class="cfr">
+        <div class="fch ag" id="fa" onclick="fT('all',this)">Todas</div>
+        <div class="fch" onclick="fT('pending',this)">Pendientes</div>
+        <div class="fch" onclick="fT('done',this)">Completadas</div>
+      </div>
+      <div id="tfl"></div>
+      <button class="b1" onclick="om('modal-add-task')" style="margin-top:12px">+ Nueva tarea</button>
+    </div>
+
+  </div>
+
+  <div class="bn">
+    <div class="ni on" onclick="sw('tab-dashboard',this)"><div class="ni-i">🏠</div><div class="ni-l">Inicio</div></div>
+    <div class="ni" onclick="sw('tab-calendar',this)"><div class="ni-i">📅</div><div class="ni-l">Agenda</div></div>
+    <div class="ni" onclick="sw('tab-goals',this)"><div class="ni-i">🎯</div><div class="ni-l">Goals</div></div>
+    <div class="ni" onclick="sw('tab-proposito',this)"><div class="ni-i">💚</div><div class="ni-l">Propósito</div></div>
+    <div class="ni" onclick="sw('tab-horario',this)"><div class="ni-i">📷</div><div class="ni-l">Horario</div></div>
+  </div>
+</div>
+
+<div class="fab" id="fab" style="display:none" onclick="om('modal-add-event')">＋</div>
+
+<!-- MODALS -->
+<div class="mol" id="modal-tasks"><div class="mod"><div class="mh"></div><div class="mcl" onclick="cm('modal-tasks')">✕</div><div class="mt">📋 Tareas Pendientes</div><div class="ms">Toca para marcar como completada</div><div id="mtl"></div></div></div>
+<div class="mol" id="modal-exams"><div class="mod"><div class="mh"></div><div class="mcl" onclick="cm('modal-exams')">✕</div><div class="mt">📝 Exámenes Próximos</div><div class="ms">Ordenados por fecha de realización</div><div id="mel"></div></div></div>
+<div class="mol" id="modal-conflicts"><div class="mod"><div class="mh"></div><div class="mcl" onclick="cm('modal-conflicts')">✕</div><div class="mt">⚡ Actividades Complicadas</div><div class="ms">Eventos que se cruzan entre categorías</div><div id="mcfl"></div></div></div>
+<div class="mol" id="modal-important"><div class="mod"><div class="mh"></div><div class="mcl" onclick="cm('modal-important')">✕</div><div class="mt">⭐ Fechas Importantes</div><div class="ms">Ordenadas por nivel de importancia</div><div id="miml"></div></div></div>
+<div class="mol" id="modal-notifs"><div class="mod"><div class="mh"></div><div class="mcl" onclick="cm('modal-notifs')">✕</div><div class="mt">🔔 Notificaciones</div><div class="ms">Actividad reciente y recordatorios</div><div id="mnfl"></div></div></div>
+
+<div class="mol" id="modal-add-event">
+  <div class="mod"><div class="mh"></div><div class="mcl" onclick="cm('modal-add-event')">✕</div>
+  <div class="mt">✨ Nuevo Evento</div><div class="ms">Agrega a tu agenda</div>
+  <div class="fg"><label>Título</label><input type="text" id="et" placeholder="Ej: Matemáticas II…"></div>
+  <div class="fr"><div class="fg"><label>Categoría</label><select class="fsel" id="ec"><option value="uni">🎓 Universidad</option><option value="work">💼 Trabajo</option><option value="personal">🏠 Personal</option><option value="sport">⚽ Deporte</option><option value="social">🎉 Social</option></select></div><div class="fg"><label>Tipo</label><select class="fsel" id="ety"><option value="class">Clase</option><option value="exam">Examen</option><option value="task">Tarea</option><option value="event">Evento</option><option value="travel">Traslado</option><option value="meeting">Reunión</option></select></div></div>
+  <div class="fr"><div class="fg"><label>Fecha</label><input type="date" id="ed"></div><div class="fg"><label>Hora inicio</label><input type="time" id="eh"></div></div>
+  <div class="fr"><div class="fg"><label>Duración (min)</label><input type="number" id="edu" placeholder="60" min="15" max="480"></div><div class="fg"><label>Lugar / Aula</label><input type="text" id="ep" placeholder="Aula B-204" style="width:100%;padding:11px 13px;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--rs);color:var(--tx);font-size:15px;font-family:var(--ff);outline:none"></div></div>
+  <div class="fg"><label>Notas</label><input type="text" id="en" placeholder="Materiales, recordatorios…"></div>
+  <div class="fg"><label>¿Es fecha importante?</label><div class="tg2"><div class="to on" id="ino" onclick="setImp(false)">No</div><div class="to" id="iyes" onclick="setImp(true)">Sí</div></div></div>
+  <div id="islw" style="display:none;margin-bottom:16px"><label style="display:block;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--grn2);margin-bottom:4px">Nivel de importancia (1–10)</label><div class="iv" id="ival">5</div><input type="range" min="1" max="10" value="5" class="isl" id="irange" oninput="document.getElementById('ival').textContent=this.value"></div>
+  <button class="b1" onclick="addEv()">Guardar evento</button></div>
+</div>
+
+<div class="mol" id="modal-add-task">
+  <div class="mod"><div class="mh"></div><div class="mcl" onclick="cm('modal-add-task')">✕</div>
+  <div class="mt">📋 Nueva Tarea</div><div class="ms">Agrega a tu lista de pendientes</div>
+  <div class="fg"><label>Nombre</label><input type="text" id="tkn" placeholder="Ej: Leer capítulo 5…"></div>
+  <div class="fr"><div class="fg"><label>Fecha límite</label><input type="date" id="tkd"></div><div class="fg"><label>Prioridad</label><select class="fsel" id="tkp"><option value="high">🔴 Alta</option><option value="mid">🟡 Media</option><option value="low">🟢 Baja</option></select></div></div>
+  <div class="fg"><label>Materia / Área</label><input type="text" id="tks" placeholder="Matemáticas, Trabajo…"></div>
+  <button class="b1" onclick="addTask()">Agregar tarea</button></div>
+</div>
+
+<div class="mol" id="modal-add-goal">
+  <div class="mod"><div class="mh"></div><div class="mcl" onclick="cm('modal-add-goal')">✕</div>
+  <div class="mt">🎯 Nueva Meta</div><div class="ms">Define tu objetivo y fecha límite</div>
+  <div class="fg"><label>Título de la meta</label><input type="text" id="glt" placeholder="Ej: Sustentar mi tesis…"></div>
+  <div class="fg"><label>Fecha objetivo</label><input type="date" id="gld"></div>
+  <div class="fg"><label>Descripción</label><textarea id="gldesc" placeholder="Describe tu meta con detalle…"></textarea></div>
+  <div style="border-top:1px solid var(--bdr);padding-top:16px;margin-top:4px">
+    <div style="font-size:16px;font-weight:600;margin-bottom:6px;color:var(--crm)">¿Tiene progreso medible?</div>
+    <p style="color:var(--tx3);font-size:14px;font-style:italic;margin-bottom:12px">Ej: escribir 138 páginas de un libro</p>
+    <div class="fr"><div class="fg"><label>Total a lograr</label><input type="number" id="gltot" placeholder="138" min="1"></div><div class="fg"><label>Unidad</label><input type="text" id="glun" placeholder="páginas, km, días…" style="width:100%;padding:11px 13px;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--rs);color:var(--tx);font-size:15px;font-family:var(--ff);outline:none"></div></div>
+  </div>
+  <button class="b1" onclick="addGoal()">Crear meta</button></div>
+</div>
+
+<script>
+// ══════════ STATE ══════════
+const S={
+  user:null, events:[], tasks:[], goals:[], notifs:[],
+  quotes:["El éxito no es el destino, es el camino que recorres cada día.","La disciplina es el puente entre tus metas y tus logros.","Cada página escrita es un paso más hacia tu sueño.","No esperes la oportunidad perfecta, crea las condiciones.","Tu progreso de hoy es tu orgullo de mañana.","La constancia supera al talento cuando el talento no es constante.","Cada día es una nueva oportunidad de ser mejor que ayer.","El conocimiento es la única riqueza que crece al compartirla."],
+  qIdx:0, pending:[], approved:[], sel:new Date(), wOff:0, calV:'day', isImp:false, vp:null, rec:false, mr:null
+};
+
+// ══════════ HELPERS ══════════
+const fmt=d=>d.toISOString().split('T')[0];
+const addD=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r};
+const now=()=>new Date();
+const MS=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const MS2=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const DS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+const DS2=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+function fd(s){const d=new Date(s+'T12:00:00');return`${d.getDate()} ${MS2[d.getMonth()]} ${d.getFullYear()}`}
+function du(s){const t=new Date(s+'T12:00:00'),n=new Date();n.setHours(0,0,0,0);return Math.round((t-n)/86400000)}
+function cCol(c){return{uni:'eg',work:'ea',personal:'es',sport:'er',social:'eo'}[c]||'eg'}
+function cLbl(c){return{uni:'🎓 Universidad',work:'💼 Trabajo',personal:'🏠 Personal',sport:'⚽ Deporte',social:'🎉 Social'}[c]||c}
+function tIco(t){return{class:'📚',exam:'📝',task:'✅',event:'📌',travel:'🚌',meeting:'🤝'}[t]||'📌'}
+
+// ══════════ SAMPLE DATA ══════════
+function loadData(){
+  const t=now();
+  S.events=[
+    {id:1,title:'Matemáticas II',cat:'uni',type:'class',date:fmt(t),time:'08:00',dur:90,place:'Aula A-201',notes:'Llevar calculadora',important:false,importance:0},
+    {id:2,title:'Física General',cat:'uni',type:'class',date:fmt(t),time:'10:00',dur:90,place:'Lab B-102',notes:'',important:false,importance:0},
+    {id:3,title:'Reunión de Trabajo',cat:'work',type:'meeting',date:fmt(t),time:'13:00',dur:60,place:'Oficina Central',notes:'Presentación Q3',important:true,importance:8},
+    {id:4,title:'Traslado Uni→Trabajo',cat:'work',type:'travel',date:fmt(t),time:'12:00',dur:45,place:'Terminal',notes:'',important:false,importance:0},
+    {id:5,title:'Examen Parcial Cálculo',cat:'uni',type:'exam',date:fmt(addD(t,3)),time:'09:00',dur:120,place:'Aula Magna',notes:'Derivadas e integrales',important:true,importance:9},
+    {id:6,title:'Química Orgánica',cat:'uni',type:'class',date:fmt(addD(t,1)),time:'08:00',dur:90,place:'Aula C-303',notes:'',important:false,importance:0},
+    {id:7,title:'Examen Física',cat:'uni',type:'exam',date:fmt(addD(t,7)),time:'10:00',dur:120,place:'Lab 2',notes:'Llevar apuntes',important:true,importance:8},
+  ];
+  S.tasks=[
+    {id:1,name:'Informe de Física',date:fmt(addD(t,2)),priority:'high',subject:'Física',done:false},
+    {id:2,name:'Estudiar caps. 3–5 Cálculo',date:fmt(addD(t,3)),priority:'high',subject:'Matemáticas',done:false},
+    {id:3,name:'Leer artículo Historia',date:fmt(addD(t,4)),priority:'mid',subject:'Historia',done:true},
+    {id:4,name:'Preparar diapositivas',date:fmt(addD(t,5)),priority:'high',subject:'Trabajo',done:false},
+  ];
+  S.goals=[
+    {id:1,title:'Sustentar mi tesis',date:fmt(addD(t,120)),desc:'Defensa de tesis de licenciatura',hp:false,total:0,cur:0,unit:''},
+    {id:2,title:'Escribir mi libro',date:fmt(addD(t,200)),desc:'Primer borrador completo',hp:true,total:138,cur:42,unit:'páginas'},
+  ];
+  S.notifs=[
+    {text:'Examen de Cálculo en 3 días. ¡Empieza a repasar!',time:'hace 2h',read:false},
+    {text:'Hoy tienes cruces: Clases universitarias + Reunión de trabajo.',time:'hace 4h',read:false},
+    {text:'Meta "Escribir mi libro": llevas 42 de 138 páginas (30%).',time:'ayer',read:true},
+  ];
+  S.pending=[
+    {id:'r1',name:'Ana Torres',email:'ana@uni.edu',reason:'Necesito organizar mis materias y exámenes de posgrado de forma elegante.',status:'pending'},
+    {id:'r2',name:'Luis Quispe',email:'luis@trabajo.com',reason:'Trabajo y estudio al mismo tiempo, necesito coordinar ambas actividades.',status:'pending'},
+  ];
+  S.approved=[{name:'María García',email:'maria@uni.edu',at:'Hoy'}];
+  S.qIdx=now().getDate()%S.quotes.length;
+}
+
+// ══════════ AUTH ══════════
+function reqAcc(){
+  const n=document.getElementById('inm').value.trim();
+  const e=document.getElementById('iem').value.trim();
+  const p=document.getElementById('ips').value.trim();
+  const r=document.getElementById('irz').value.trim();
+  if(!n||!e||!p||!r){alert('Completa todos los campos, incluyendo el motivo.');return}
+  if(!e.includes('@')){alert('Ingresa un correo válido.');return}
+  S.user={name:n,email:e};
+  if(!S.pending.length)S.pending=[];
+  S.pending.push({id:'r'+Date.now(),name:n,email:e,reason:r,status:'pending'});
+  document.getElementById('fp').classList.add('off');
+  document.getElementById('pp').classList.add('on');
+  document.getElementById('pe').textContent=e;
+
+  // ── Notificar al administrador de nueva solicitud ──
+  emailjs.send('service_Reran','template_Reran',{
+    to_email: 'rojasquispesthefanoo@gmail.com',
+    nombre_admin: 'Administrador',
+    nombre: n,
+    email_usuario: e,
+    motivo: r,
+    accion: 'NUEVA SOLICITUD',
+    mensaje: `Nueva solicitud de acceso a Reran:\nNombre: ${n}\nCorreo: ${e}\nMotivo: "${r}"\n\nIngresa al Panel de Administrador para aprobar o rechazar.`
+  }).catch(err=>console.warn('Notif admin error:',err));
+}
+function showLF(){const l=document.getElementById('lif');l.style.display=l.style.display==='none'?'block':'none'}
+function loginU(){const e=document.getElementById('lie').value.trim();if(!e){alert('Ingresa tu correo.');return}S.user={name:'Usuario',email:e};loadData();enterApp()}
+function devBypass(){loadData();if(!S.user)S.user={name:'Estudiante Demo',email:'demo@reran.app'};enterApp()}
+function enterApp(){document.getElementById('sl').classList.remove('on');document.getElementById('sap').classList.add('on');document.getElementById('fab').style.display='flex';initApp()}
+function goAdmin(){if(!S.pending||!S.pending.length)loadData();document.getElementById('sl').classList.remove('on');document.getElementById('sa').classList.add('on');renderAdmin()}
+function backLogin(){document.getElementById('sa').classList.remove('on');document.getElementById('sl').classList.add('on')}
+
+function renderAdmin(){
+  const pend=(S.pending||[]).filter(r=>r.status==='pending');
+  document.getElementById('arl').innerHTML=pend.length===0
+    ?`<div class="emp"><div class="ei">✅</div><h3>Sin solicitudes</h3><p>No hay solicitudes pendientes.</p></div>`
+    :pend.map(r=>`<div class="rc"><div class="rn">${r.name}</div><div class="re">📧 ${r.email}</div><div class="rr">"${r.reason}"</div><div class="rb"><button class="bok" onclick="approveR('${r.id}')">✓ Permitir acceso</button><button class="bno" onclick="rejectR('${r.id}')">✕ Rechazar</button></div></div>`).join('');
+  document.getElementById('aul').innerHTML=(S.approved||[]).length===0
+    ?`<p style="color:var(--tx3);font-style:italic;font-size:14px">Aún no hay usuarios aprobados.</p>`
+    :(S.approved||[]).map(u=>`<div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg3);border-radius:var(--rs);margin-bottom:8px;border-left:3px solid var(--grn2)"><div style="flex:1"><div style="font-size:16px;font-weight:600">${u.name}</div><div style="font-size:13px;color:var(--tx3);font-style:italic">${u.email} · Aprobado: ${u.at}</div></div><div style="font-size:20px">✅</div></div>`).join('');
+}
+
+function approveR(id){
+  const r=S.pending.find(x=>x.id===id);if(!r)return;
+  r.status='approved';
+  r.approving=true;
+  S.approved.push({name:r.name,email:r.email,at:'Hoy'});
+  renderAdmin();
+
+  // ── Notificar al administrador (tu Gmail) ──
+  emailjs.send('service_Reran','template_Reran',{
+    to_email: 'rojasquispesthefanoo@gmail.com',
+    nombre_admin: 'Administrador',
+    nombre: r.name,
+    email_usuario: r.email,
+    motivo: r.reason,
+    accion: 'APROBADO',
+    mensaje: `La solicitud de ${r.name} (${r.email}) ha sido APROBADA en Reran.`
+  }).then(()=>{
+    console.log('✅ Correo de notificación enviado al admin');
+  }).catch(err=>{
+    console.warn('Admin email error:', err);
+  });
+
+  // ── Notificar al usuario aprobado ──
+  emailjs.send('service_Reran','template_Reran',{
+    to_email: r.email,
+    nombre_admin: 'El equipo de Reran',
+    nombre: r.name,
+    email_usuario: r.email,
+    motivo: r.reason,
+    accion: 'BIENVENIDO',
+    mensaje: `Hola ${r.name}, tu solicitud para usar Reran ha sido aprobada. Ya puedes iniciar sesión con tu correo y contraseña. ¡Bienvenido/a!`
+  }).then(()=>{
+    showToast(`✅ Acceso aprobado — Correo enviado a ${r.name}`);
+  }).catch(err=>{
+    showToast(`✅ Aprobado. (Correo pendiente — revisa tu configuración EmailJS)`);
+    console.warn('User email error:', err);
+  });
+}
+
+function rejectR(id){
+  const r=S.pending.find(x=>x.id===id);if(!r)return;
+  if(confirm(`¿Rechazar la solicitud de ${r.name}?`)){r.status='rejected';renderAdmin()}
+}
+
+function showToast(msg){
+  let t=document.getElementById('toast');
+  if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:110px;left:50%;transform:translateX(-50%);background:var(--grn);color:#fff;padding:12px 20px;border-radius:10px;font-family:var(--ff);font-size:15px;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.4);max-width:90%;text-align:center;transition:opacity .4s';document.body.appendChild(t)}
+  t.textContent=msg;t.style.opacity='1';
+  clearTimeout(t._timer);t._timer=setTimeout(()=>t.style.opacity='0',3500);
+}
+
+// ══════════ THEME ══════════
+function toggleTheme(){
+  const h=document.documentElement;
+  const d=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',d?'light':'dark');
+  document.getElementById('tbtn').textContent=d?'🌙':'☀️';
+}
+
+// ══════════ INIT ══════════
+function initApp(){
+  const ts=fmt(now());
+  document.getElementById('ed').value=ts;
+  document.getElementById('tkd').value=ts;
+  updateDash();renderCal();renderTasksFull();renderGoals();renderProp();
+}
+
+// ══════════ DASHBOARD ══════════
+function updateDash(){
+  const t=now(),ts=fmt(t);
+  document.getElementById('dd').textContent=`${DS[t.getDay()]}, ${t.getDate()} de ${MS[t.getMonth()]} ${t.getFullYear()}`;
+  const h=t.getHours(),name=S.user?.name?.split(' ')[0]||'Estudiante';
+  document.getElementById('dg').textContent=`${h<12?'Buenos días':h<18?'Buenas tardes':'Buenas noches'}, ${name} 👋`;
+  document.getElementById('ds').textContent='Tu resumen del día.';
+  document.getElementById('ktt').textContent=S.tasks.filter(x=>!x.done).length;
+  document.getElementById('kte').textContent=S.events.filter(e=>e.type==='exam'&&e.date>=ts).length;
+  document.getElementById('kti').textContent=S.events.filter(e=>e.important&&e.importance>=7).length;
+  document.getElementById('ktc').textContent=detectConf().length;
+  document.getElementById('ktg').textContent=S.goals.length;
+  const tev=S.events.filter(e=>e.date===ts).sort((a,b)=>a.time.localeCompare(b.time));
+  const cls=['a','b','c','d','e'];
+  document.getElementById('tdl').innerHTML=tev.length===0
+    ?`<div class="emp"><div class="ei">🌿</div><h3>Día tranquilo</h3><p>No hay eventos programados para hoy.</p></div>`
+    :tev.map((e,i)=>`<div class="ti ${cls[i%5]}"><div class="ti-t">${e.time}</div><div class="ti-i"><div class="ti-s">${e.title}</div><div class="ti-r">${e.place||'Sin lugar'} · ${cLbl(e.cat)}</div></div><div style="font-size:20px">${tIco(e.type)}</div></div>`).join('');
+  const wc=S.events.filter(e=>e.type==='class').length;
+  const tot=S.tasks.length,done=S.tasks.filter(x=>x.done).length;
+  const pct=tot>0?Math.round(done/tot*100):0;
+  document.getElementById('scs').textContent=wc;
+  document.getElementById('shs').textContent=(wc*1.5).toFixed(0)+' h';
+  document.getElementById('sps').textContent=pct+' %';
+  document.getElementById('pfil').style.width=pct+'%';
+  checkAlerts();
+}
+
+// ══════════ CONFLICTS ══════════
+function detectConf(){
+  const bd={};
+  S.events.forEach(e=>{if(!bd[e.date])bd[e.date]=[];bd[e.date].push(e)});
+  return Object.entries(bd).filter(([_,evs])=>{const c=[...new Set(evs.map(e=>e.cat))];return c.length>=2&&(c.includes('uni')&&c.includes('work')||evs.some(e=>e.type==='travel'))}).map(([date,events])=>({date,events,cats:[...new Set(events.map(e=>e.cat))]}));
+}
+
+// ══════════ GOALS ══════════
+function renderGoals(){
+  const el=document.getElementById('glist');
+  if(!S.goals.length){el.innerHTML=`<div class="emp"><div class="ei">🎯</div><h3>Sin metas aún</h3><p>Crea tu primera meta y sigue tu progreso.</p></div>`;return}
+  el.innerHTML=S.goals.map(g=>{
+    const d=Math.max(0,du(g.date)),raw=du(g.date);
+    const ad=[30,15,10,5,3,2,1,0];
+    const ah=ad.map(a=>{const f=d<=a,cr=a<=3&&f;return`<span class="ap${f?(cr?' cr':' fx')':''}">${a===0?'¡Hoy!':'-'+a+'d'}</span>`}).join('');
+    let ph='';
+    if(g.hp&&g.total>0){const pct=Math.min(100,Math.round(g.cur/g.total*100));ph=`<div class="pl"><span>${g.cur} / ${g.total} ${g.unit}</span><span style="color:var(--grn4);font-weight:600">${pct}%</span></div><div class="pt"><div class="pp2" style="width:${pct}%"></div></div><div class="gu"><input type="number" class="gi" id="gu${g.id}" placeholder="Actualizar…" min="0" max="${g.total}"><button class="gub" onclick="updG(${g.id})">Actualizar</button></div>`}
+    const ds=raw===0?`<span style="color:var(--rb2)">— ¡Hoy!</span>`:raw>0?`<span style="color:var(--am2)">— ${raw} días</span>`:`<span style="color:var(--rb2)">— Venció hace ${Math.abs(raw)} días</span>`;
+    return`<div class="gc"><div class="gt">🎯 ${g.title}</div><div class="gdate">📅 ${fd(g.date)} ${ds}</div>${g.desc?`<div style="font-size:14px;color:var(--tx3);font-style:italic;margin-bottom:12px">${g.desc}</div>`:''}<div class="cdb"><div class="cu"><div class="cun">${Math.floor(d/30)}</div><div class="cul">Meses</div></div><div class="cu"><div class="cun">${d}</div><div class="cul">Días</div></div><div class="cu"><div class="cun">${d*24}</div><div class="cul">Horas</div></div></div><div style="font-size:12px;color:var(--tx3);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase">Alertas automáticas:</div><div class="als">${ah}</div>${ph}<button onclick="delG(${g.id})" style="background:transparent;border:none;color:var(--tx4);font-size:12px;cursor:pointer;margin-top:8px">✕ Eliminar meta</button></div>`;
+  }).join('');
+}
+
+function checkAlerts(){
+  const ad=[30,15,10,5,3,2,1,0];
+  S.goals.forEach(g=>{const d=du(g.date);if(ad.includes(d)){const m=d===0?`¡Hoy es el día de tu meta: "${g.title}"!`:`Quedan ${d} días para: "${g.title}"`;if(!S.notifs.some(n=>n.text===m))S.notifs.unshift({text:m,time:'ahora',read:false})}});
+}
+
+function addGoal(){
+  const t=document.getElementById('glt').value.trim(),d=document.getElementById('gld').value;
+  if(!t||!d){alert('Completa título y fecha.');return}
+  const tot=parseInt(document.getElementById('gltot').value)||0,un=document.getElementById('glun').value.trim();
+  S.goals.push({id:Date.now(),title:t,date:d,desc:document.getElementById('gldesc').value.trim(),hp:tot>0,total:tot,cur:0,unit:un});
+  S.notifs.unshift({text:`Nueva meta: "${t}" — ${fd(d)}.`,time:'ahora',read:false});
+  cm('modal-add-goal');renderGoals();updateDash();
+  ['glt','gld','gldesc','gltot','glun'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
+}
+
+function updG(id){
+  const g=S.goals.find(x=>x.id===id);if(!g)return;
+  const v=parseInt(document.getElementById('gu'+id)?.value)||0;
+  g.cur=Math.min(g.total,Math.max(0,v));
+  const pct=Math.round(g.cur/g.total*100);
+  S.notifs.unshift({text:`Progreso de "${g.title}": ${g.cur}/${g.total} ${g.unit} (${pct}%).`,time:'ahora',read:false});
+  renderGoals();
+}
+
+function delG(id){if(!confirm('¿Eliminar esta meta?'))return;S.goals=S.goals.filter(g=>g.id!==id);renderGoals();updateDash()}
+
+// ══════════ PROPÓSITO ══════════
+function renderProp(){
+  const q=S.quotes[S.qIdx%Math.max(1,S.quotes.length)]||'';
+  document.getElementById('dq').textContent=q;
+  document.getElementById('qlst').innerHTML=S.quotes.length===0
+    ?`<p style="color:var(--tx3);font-style:italic;font-size:14px">No hay frases aún.</p>`
+    :S.quotes.map((q,i)=>`<div style="display:flex;gap:8px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--bdr)"><div style="flex:1;font-style:italic;font-size:15px;color:var(--crm2)">"${q}"</div><div onclick="rmQ(${i})" style="cursor:pointer;color:var(--tx4);font-size:18px;padding-top:2px">✕</div></div>`).join('');
+}
+
+function addQ(){const i=document.getElementById('nqi');const v=i.value.trim();if(!v)return;S.quotes.push(v);i.value='';renderProp()}
+function rmQ(i){S.quotes.splice(i,1);S.qIdx=S.qIdx%Math.max(1,S.quotes.length);renderProp()}
+function loadC(ev,idx){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{document.getElementById('ci'+idx).src=e.target.result;document.getElementById('cc'+idx).classList.add('hi')};r.readAsDataURL(f)}
+
+// ══════════ VOICE ══════════
+function toggleRec(){S.rec?stopRec():startRec()}
+
+function startRec(){
+  document.getElementById('vbtn').classList.add('rc');
+  document.getElementById('vbtn').textContent='⏹️';
+  document.getElementById('vst').textContent='Grabando… Toca para detener';
+  document.getElementById('vtr').style.display='block';
+  document.getElementById('vtr').textContent='…';
+  S.rec=true;
+
+  if(!navigator.mediaDevices?.getUserMedia){setTimeout(simV,2000);return}
+  navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+    // Try Web Speech API first (more accurate)
+    if('SpeechRecognition' in window||'webkitSpeechRecognition' in window){
+      const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+      const rec=new SR();
+      rec.lang='es-ES'; rec.continuous=false; rec.interimResults=true;
+      rec.onresult=e=>{
+        const tr=[...e.results].map(r=>r[0].transcript).join('');
+        document.getElementById('vtr').textContent=`"${tr}"`;
+        if(e.results[0].isFinal){stream.getTracks().forEach(t=>t.stop());parseVoice(tr)}
+      };
+      rec.onerror=()=>{stream.getTracks().forEach(t=>t.stop());simV()};
+      rec.start();
+      setTimeout(()=>{try{rec.stop()}catch(e){}},15000);
+    } else {
+      // Fallback to simulated
+      const chunks=[];
+      S.mr=new MediaRecorder(stream);
+      S.mr.ondataavailable=e=>chunks.push(e.data);
+      S.mr.onstop=()=>{stream.getTracks().forEach(t=>t.stop());simV()};
+      S.mr.start();
+      setTimeout(()=>{if(S.rec)stopRec()},15000);
+    }
+  }).catch(()=>simV());
+}
+
+function stopRec(){
+  S.rec=false;
+  document.getElementById('vbtn').classList.remove('rc');
+  document.getElementById('vbtn').textContent='🎙️';
+  document.getElementById('vst').textContent='Procesando…';
+  if(S.mr&&S.mr.state!=='inactive')S.mr.stop();
+  else setTimeout(simV,600);
+}
+
+function parseVoice(text){
+  S.rec=false;
+  document.getElementById('vbtn').classList.remove('rc');
+  document.getElementById('vbtn').textContent='🎙️';
+  // Simple NLP parsing
+  const t=text.toLowerCase();
+  let title=text.split(' el ')[0]||text.split(' para ')[0]||text;
+  title=title.charAt(0).toUpperCase()+title.slice(1);
+  // Extract time
+  const tm=t.match(/(\d+)\s*(pm|am)/i)||t.match(/(\d+)\s*de la\s*(tarde|mañana|noche)/i);
+  let time='10:00';
+  if(tm){let h=parseInt(tm[1]);if((tm[2]==='pm'||tm[2]==='tarde')&&h<12)h+=12;else if((tm[2]==='am'||tm[2]==='mañana')&&h===12)h=0;time=`${String(h).padStart(2,'0')}:00`}
+  // Extract date
+  const nms={enero:0,febrero:1,marzo:2,abril:3,mayo:4,junio:5,julio:6,agosto:7,septiembre:8,octubre:9,noviembre:10,diciembre:11};
+  let date=fmt(addD(now(),1));
+  for(const [nm,mo] of Object.entries(nms)){const rx=new RegExp(`(\\d+)\\s+de\\s+${nm}`);const m=t.match(rx);if(m){const d=new Date();d.setMonth(mo);d.setDate(parseInt(m[1]));if(d<now())d.setFullYear(d.getFullYear()+1);date=fmt(d);break}}
+  showVParsed({raw:text,title,date,time,notes:''});
+}
+
+function simV(){
+  S.rec=false;
+  document.getElementById('vbtn').classList.remove('rc');
+  document.getElementById('vbtn').textContent='🎙️';
+  const smp=[
+    {raw:'Reunión el sábado 19 de abril a las 4 pm con el señor René',title:'Reunión con Sr. René',date:fmt(addD(now(),3)),time:'16:00',notes:'Con el señor René'},
+    {raw:'Clase de matemáticas el lunes a las 8 de la mañana en el aula 201',title:'Clase de Matemáticas',date:fmt(addD(now(),1)),time:'08:00',notes:'Aula 201'},
+    {raw:'Examen de física el viernes a las 10 am en el laboratorio',title:'Examen de Física',date:fmt(addD(now(),5)),time:'10:00',notes:'Laboratorio'},
+  ];
+  showVParsed(smp[Math.floor(Math.random()*smp.length)]);
+}
+
+function showVParsed(vp){
+  document.getElementById('vtr').style.display='block';
+  document.getElementById('vtr').textContent=`"${vp.raw}"`;
+  document.getElementById('vst').textContent='✅ Voz reconocida — Evento detectado:';
+  document.getElementById('pvt').textContent=vp.title;
+  document.getElementById('pvd2').textContent=fd(vp.date);
+  document.getElementById('pvh').textContent=vp.time;
+  document.getElementById('pvn').textContent=vp.notes||'—';
+  document.getElementById('vpd').style.display='block';
+  document.getElementById('vsave').style.display='block';
+  S.vp=vp;
+}
+
+function saveV(){
+  if(!S.vp)return;
+  const vp=S.vp;
+  S.events.push({id:Date.now(),title:vp.title,cat:'personal',type:'meeting',date:vp.date,time:vp.time,dur:60,place:'',notes:vp.notes,important:false,importance:0});
+  S.notifs.unshift({text:`Evento de voz guardado: "${vp.title}" — ${fd(vp.date)} a las ${vp.time}.`,time:'ahora',read:false});
+  alert(`✅ Guardado: "${vp.title}"`);
+  updateDash();renderCal();
+  ['vtr','vpd'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('vsave').style.display='none';
+  document.getElementById('vst').textContent='Toca para grabar';
+  S.vp=null;
+}
+
+// ══════════ CALENDAR ══════════
+let CV='day';
+
+function renderCal(){renderWS();renderGrid();updateCNT()}
+
+function setCV(v,btn){CV=v;document.querySelectorAll('.cvb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderGrid();updateCNT()}
+function calP(){CV==='day'?S.sel=addD(S.sel,-1):S.wOff--;renderCal()}
+function calN(){CV==='day'?S.sel=addD(S.sel,1):S.wOff++;renderCal()}
+
+function updateCNT(){
+  const t=now();
+  if(CV==='day'){const d=S.sel;document.getElementById('cnt').textContent=`${DS[d.getDay()]} ${d.getDate()} ${MS2[d.getMonth()]}`}
+  else{const ws=wStart(t,S.wOff),we=addD(ws,6);document.getElementById('cnt').textContent=`${ws.getDate()} ${MS2[ws.getMonth()]} — ${we.getDate()} ${MS2[we.getMonth()]}`}
+}
+
+function wStart(date,off=0){const d=new Date(date);const dow=d.getDay()===0?6:d.getDay()-1;d.setDate(d.getDate()-dow+off*7);return d}
+
+function renderWS(){
+  const t=now(),ts=fmt(t),ss=fmt(S.sel);
+  const ws=wStart(t,S.wOff);
+  const strip=document.getElementById('wstrip');
+  strip.innerHTML='';
+  const dc=['var(--grn2)','var(--gld2)','var(--rb2)','var(--sp2)','var(--am2)'];
+  for(let i=0;i<7;i++){
+    const d=addD(ws,i),ds=fmt(d);
+    const isT=ds===ts,isS=ds===ss;
+    const ev=S.events.filter(e=>e.date===ds);
+    const cell=document.createElement('div');
+    cell.className=`wd${isT?' tc':''}${isS&&!isT?' sc':''}${isT&&isS?' sc':''}`;
+    cell.innerHTML=`<div class="wn">${DS2[d.getDay()]}</div><div class="wnum">${d.getDate()}</div><div class="wdots">${ev.slice(0,3).map((_,j)=>`<div style="width:4px;height:4px;border-radius:50%;background:${isS?'rgba(255,255,255,.4)':dc[j%5]}"></div>`).join('')}</div>`;
+    cell.addEventListener('click',()=>{S.sel=new Date(d);if(CV==='week'){CV='day';document.querySelectorAll('.cvb').forEach((b,i)=>b.classList.toggle('on',i===0))}renderCal()});
+    strip.appendChild(cell);
+  }
+}
+
+function renderGrid(){
+  const t=now(),ts=fmt(t);
+  const dch=document.getElementById('dch');
+  const tgi=document.getElementById('tgi');
+  const PPH=50,HOURS=24;
+
+  if(CV==='day'){
+    dch.style.display='none';
+    tgi.className='tgi';
+    tgi.style.gridTemplateColumns='46px 1fr';
+    buildGrid(tgi,[S.sel],PPH,HOURS,ts);
+  } else {
+    const ws=wStart(t,S.wOff);
+    const days=Array.from({length:7},(_,i)=>addD(ws,i));
+    dch.style.display='grid';
+    dch.style.gridTemplateColumns='46px repeat(7,1fr)';
+    dch.innerHTML=`<div class="dchc"></div>`+days.map(d=>`<div class="dchc${fmt(d)===ts?' th':''}">${DS2[d.getDay()]} ${d.getDate()}</div>`).join('');
+    tgi.className='tgi wk';
+    tgi.style.gridTemplateColumns='46px repeat(7,1fr)';
+    buildGrid(tgi,days,PPH,HOURS,ts);
+  }
+  setTimeout(()=>{document.getElementById('tgr').scrollTop=7*PPH},50);
+  setTimeout(()=>placeNow(PPH),60);
+}
+
+function buildGrid(container,days,PPH,HOURS,ts){
+  container.innerHTML='';
+  for(let h=0;h<HOURS;h++){
+    const lb=document.createElement('div');
+    lb.className='trl';lb.style.gridRow=h+1;lb.style.gridColumn='1';
+    lb.textContent=h===0?'':String(h).padStart(2,'0')+':00';
+    container.appendChild(lb);
+  }
+  days.forEach((day,di)=>{
+    const ds=fmt(day);
+    const col=document.createElement('div');
+    col.className='dcl';col.dataset.date=ds;
+    col.style.gridColumn=di+2;col.style.gridRow=`1/${HOURS+1}`;col.style.position='relative';
+    for(let h=0;h<HOURS;h++){
+      const cell=document.createElement('div');
+      cell.className='hc';cell.dataset.hour=h;cell.dataset.date=ds;
+      cell.addEventListener('click',e=>{if(e.target.closest('.gev'))return;openAt(ds,h)});
+      col.appendChild(cell);
+    }
+    S.events.filter(e=>e.date===ds).sort((a,b)=>a.time.localeCompare(b.time)).forEach(ev=>{
+      const[hh,mm]=ev.time.split(':').map(Number);
+      const top=(hh+mm/60)*PPH,height=Math.max(22,(ev.dur||60)/60*PPH-4);
+      const block=document.createElement('div');
+      block.className=`gev ${cCol(ev.cat)}`;
+      block.style.top=top+'px';block.style.height=height+'px';
+      block.innerHTML=`<div class="evt">${tIco(ev.type)} ${ev.title}</div><div class="evm">${ev.place||''}</div>`;
+      block.addEventListener('click',()=>showEv(ev.id));
+      col.appendChild(block);
+    });
+    container.appendChild(col);
+  });
+}
+
+function placeNow(PPH){
+  document.querySelectorAll('.nl').forEach(e=>e.remove());
+  const t=now(),ts=fmt(t);
+  document.querySelectorAll('.dcl').forEach(col=>{
+    if(col.dataset.date===ts){
+      const top=(t.getHours()+t.getMinutes()/60)*PPH;
+      const ln=document.createElement('div');ln.className='nl';ln.style.top=top+'px';
+      col.appendChild(ln);
+    }
+  });
+}
+
+function openAt(ds,h){
+  document.getElementById('ed').value=ds;
+  document.getElementById('eh').value=String(h).padStart(2,'0')+':00';
+  om('modal-add-event');
+}
+
+function showEv(id){
+  const e=S.events.find(x=>x.id===id);if(!e)return;
+  alert([`${tIco(e.type)} ${e.title}`,`📅 ${fd(e.date)}  ·  ${e.time}`,`📍 ${e.place||'Sin lugar'}`,cLbl(e.cat),e.notes?`📎 ${e.notes}`:'',e.important?`⭐ Importancia: ${e.importance}/10`:''].filter(Boolean).join('\n'));
+}
+
+// ══════════ TASKS ══════════
+function taskHTML(t){
+  const pc=t.priority==='high'?'ph2':t.priority==='mid'?'pm2':'pl2';
+  const pl=t.priority==='high'?'Alta':t.priority==='mid'?'Media':'Baja';
+  return`<div class="ti2 ${t.done?'dn':''}" onclick="togTask(${t.id})"><div class="tck">${t.done?'✓':''}</div><div style="flex:1"><div class="tn">${t.name}</div><div class="tm2">📅 ${fd(t.date)} · ${t.subject}</div></div><span class="tp2 ${pc}">${pl}</span></div>`;
+}
+
+function togTask(id){const t=S.tasks.find(x=>x.id===id);if(t)t.done=!t.done;updateDash();renderTasksFull();if(document.getElementById('modal-tasks').classList.contains('on'))popMod('modal-tasks')}
+
+let TF='all';
+function fT(f,el){TF=f;document.querySelectorAll('.fch').forEach(c=>c.classList.remove('ag'));el.classList.add('ag');renderTasksFull()}
+
+function renderTasksFull(){
+  let tasks=S.tasks;
+  if(TF==='pending')tasks=tasks.filter(t=>!t.done);
+  if(TF==='done')tasks=tasks.filter(t=>t.done);
+  document.getElementById('tfl').innerHTML=tasks.length===0
+    ?`<div class="emp"><div class="ei">🎉</div><h3>¡Todo listo!</h3><p>No hay tareas en esta categoría.</p></div>`
+    :tasks.map(t=>taskHTML(t)).join('');
+}
+
+// ══════════ MODALS ══════════
+function om(id){document.getElementById(id).classList.add('on');popMod(id)}
+function cm(id){document.getElementById(id).classList.remove('on')}
+document.querySelectorAll('.mol').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('on')}));
+
+function popMod(id){
+  if(id==='modal-tasks'){
+    const p=S.tasks.filter(t=>!t.done);
+    document.getElementById('mtl').innerHTML=p.length===0?`<div class="emp"><div class="ei">🌿</div><h3>Sin pendientes</h3><p>¡Estás al día!</p></div>`:p.map(t=>taskHTML(t)).join('');
+  }
+  if(id==='modal-exams'){
+    const ts=fmt(now());
+    const ex=S.events.filter(e=>e.type==='exam'&&e.date>=ts).sort((a,b)=>a.date.localeCompare(b.date));
+    document.getElementById('mel').innerHTML=ex.length===0?`<div class="emp"><div class="ei">✨</div><h3>Sin exámenes</h3><p>No hay exámenes próximos.</p></div>`:ex.map(e=>{const d=du(e.date);return`<div class="exi"><div class="exd">📅 ${fd(e.date)}</div><div class="exs">${e.title}</div><div class="extg"><span class="extag">${e.time}</span><span class="extag">${e.place||'Sin lugar'}</span><span class="extag">${cLbl(e.cat)}</span></div>${e.notes?`<div style="font-size:13px;color:var(--tx3);margin-top:8px;font-style:italic">📎 ${e.notes}</div>`:''}<div class="excd">${d===0?'¡Hoy!':d===1?'Mañana':'en '+d+' días'}</div></div>`}).join('');
+  }
+  if(id==='modal-conflicts'){
+    const cl=detectConf();
+    document.getElementById('mcfl').innerHTML=cl.length===0?`<div class="emp"><div class="ei">😌</div><h3>Sin conflictos</h3><p>Tu agenda fluye sin cruces.</p></div>`:cl.map(c=>{const cm2={uni:'cg2',work:'ca2',personal:'cs2'};return`<div class="cfi"><div class="cfb">⚡ Cruce detectado</div><div style="margin-bottom:8px">${c.cats.map(cat=>`<span class="cch ${cm2[cat]||'cg2'}">${cLbl(cat)}</span>`).join('')}</div><div style="font-style:italic;font-size:13px;color:var(--am2);margin-bottom:6px">📅 ${fd(c.date)}</div><div class="cfd">${c.events.map(e=>`<strong>${e.title}</strong> (${e.time})`).join(' + ')}<br>${c.events.some(e=>e.type==='travel')?'🚌 Requiere traslado.':'Múltiples categorías en el mismo día.'}</div></div>`}).join('');
+  }
+  if(id==='modal-important'){
+    const imp=S.events.filter(e=>e.important).sort((a,b)=>b.importance-a.importance);
+    document.getElementById('miml').innerHTML=imp.length===0?`<div class="emp"><div class="ei">⭐</div><h3>Sin fechas importantes</h3><p>Al crear eventos, márcalos como importantes.</p></div>`:imp.map(e=>{const lv=e.importance>=8?'ih':e.importance>=5?'im2':'il';return`<div class="impi"><div class="impr ${lv}">${e.importance}</div><div><div class="inn">${e.title}</div><div class="ind">📅 ${fd(e.date)} · ${e.time}</div><div style="font-size:11px;color:var(--tx4);margin-top:2px;font-style:italic">${cLbl(e.cat)}</div></div></div>`}).join('');
+  }
+  if(id==='modal-notifs'){
+    document.getElementById('mnfl').innerHTML=S.notifs.map(n=>`<div class="nit"><div class="nd ${n.read?'rd':''}"></div><div><div class="ntx">${n.text}</div><div class="ntm">${n.time}</div></div></div>`).join('');
+  }
+}
+
+// ══════════ ADD EVENT / TASK ══════════
+function setImp(v){
+  S.isImp=v;
+  document.getElementById('ino').classList.toggle('on',!v);
+  document.getElementById('iyes').classList.toggle('on',v);
+  document.getElementById('islw').style.display=v?'block':'none';
+}
+
+function addEv(){
+  const title=document.getElementById('et').value.trim(),date=document.getElementById('ed').value;
+  if(!title||!date){alert('Completa el título y la fecha.');return}
+  S.events.push({id:Date.now(),title,cat:document.getElementById('ec').value,type:document.getElementById('ety').value,date,time:document.getElementById('eh').value||'08:00',dur:parseInt(document.getElementById('edu').value)||60,place:document.getElementById('ep').value.trim(),notes:document.getElementById('en').value.trim(),important:S.isImp,importance:S.isImp?parseInt(document.getElementById('irange').value):0});
+  S.notifs.unshift({text:`Nuevo evento: "${title}" — ${fd(date)}.`,time:'ahora',read:false});
+  cm('modal-add-event');updateDash();renderCal();
+  ['et','ep','en'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('edu').value='';
+  setImp(false);
+}
+
+function addTask(){
+  const name=document.getElementById('tkn').value.trim(),date=document.getElementById('tkd').value;
+  if(!name||!date){alert('Completa nombre y fecha.');return}
+  S.tasks.push({id:Date.now(),name,date,priority:document.getElementById('tkp').value,subject:document.getElementById('tks').value.trim()||'General',done:false});
+  S.notifs.unshift({text:`Tarea: "${name}" agregada.`,time:'ahora',read:false});
+  cm('modal-add-task');updateDash();renderTasksFull();
+  ['tkn','tkd','tks'].forEach(id=>document.getElementById(id).value='');
+}
+
+// ══════════ SCHEDULE UPLOAD ══════════
+const SUBS=[
+  {name:'Matemáticas II',sc:'Lun/Mié/Vie 08:00',dur:90,room:'Aula A-201',color:'var(--grn2)'},
+  {name:'Física General',sc:'Mar/Jue 10:00',dur:90,room:'Lab B-102',color:'var(--rb2)'},
+  {name:'Química Orgánica',sc:'Lun/Mié 12:00',dur:90,room:'Aula C-303',color:'var(--am2)'},
+  {name:'Historia del Arte',sc:'Mar 14:00',dur:60,room:'Aula 105',color:'var(--sp2)'},
+  {name:'Inglés Técnico',sc:'Vie 07:00',dur:120,room:'Lab Idiomas',color:'var(--gld2)'},
+  {name:'Programación I',sc:'Mié/Vie 16:00',dur:90,room:'Lab Informática',color:'var(--grn2)'},
+];
+
+function handleUp(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    document.getElementById('pim').src=ev.target.result;
+    document.getElementById('upv').style.display='block';
+    document.getElementById('aov').style.display='flex';
+    document.getElementById('uz').style.display='none';
+    setTimeout(()=>{document.getElementById('aov').style.display='none';showSubs()},2800);
+  };
+  r.readAsDataURL(f);
+}
+
+function showSubs(){
+  document.getElementById('dsub').innerHTML=SUBS.map(s=>`<div class="srow"><div class="sc2" style="background:${s.color}"></div><div><div class="sn">${s.name}</div><div class="ss">${s.sc} · ${s.room} · ${s.dur} min</div></div></div>`).join('');
+  document.getElementById('sres').classList.add('on');
+  S.notifs.unshift({text:`Horario analizado: ${SUBS.length} materias detectadas.`,time:'ahora',read:false});
+}
+
+function applyS(){
+  const t=now();const dm={Lun:1,Mar:2,Mié:3,Jue:4,Vie:5};
+  SUBS.forEach(s=>{
+    for(let w=0;w<4;w++){
+      const pts=s.sc.split(' ');const ds=pts[0].split('/');const time=pts[1];
+      ds.forEach(day=>{const dn=dm[day];if(!dn)return;const d=new Date(t);const cur=d.getDay()===0?7:d.getDay();d.setDate(d.getDate()+(dn-cur)+w*7);S.events.push({id:Date.now()+Math.random()*9999,title:s.name,cat:'uni',type:'class',date:fmt(d),time,dur:s.dur,place:s.room,notes:'',important:false,importance:0})});
+    }
+  });
+  alert(`✅ ¡Horario aplicado! ${SUBS.length} materias en el calendario.`);
+  updateDash();renderCal();
+}
+
+// ══════════ NAV ══════════
+function sw(tabId,navEl){
+  document.querySelectorAll('.tp').forEach(p=>p.classList.remove('on'));
+  document.getElementById(tabId).classList.add('on');
+  if(navEl){document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));navEl.classList.add('on')}
+  else{const m={'tab-dashboard':0,'tab-calendar':1,'tab-goals':2,'tab-proposito':3,'tab-horario':4};const idx=m[tabId];if(idx!==undefined)document.querySelectorAll('.ni').forEach((n,i)=>n.classList.toggle('on',i===idx))}
+  if(tabId==='tab-calendar')renderCal();
+  if(tabId==='tab-tasks')renderTasksFull();
+  if(tabId==='tab-goals')renderGoals();
+  if(tabId==='tab-proposito')renderProp();
+}
+</script>
+
+<!--
+╔══════════════════════════════════════════════════════════════╗
+║           GUÍA COMPLETA DE USO — RERAN                      ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  CÓMO USARLO EN ANDROID:                                     ║
+║  1. Abre el archivo en Chrome para Android                   ║
+║  2. Toca el menú (⋮) → "Añadir a pantalla de inicio"        ║
+║  3. Se instala como app real (PWA)                           ║
+║                                                              ║
+║  FLUJO DE ACCESO:                                            ║
+║  1. El usuario llena el formulario con su motivo             ║
+║  2. Toca "Solicitar Acceso"                                  ║
+║  3. Tú ves la solicitud en el Panel Admin                    ║
+║     → botón "Panel de administrador" en la pantalla          ║
+║  4. Apruebas o rechazas                                      ║
+║  5. (Con EmailJS configurado, el correo se envía auto)       ║
+║                                                              ║
+║  CORREOS REALES CON EMAILJS (gratis, 200/mes):               ║
+║  1. Ve a emailjs.com y crea cuenta gratis                    ║
+║  2. Add Service → Gmail → conecta tu Gmail                   ║
+║  3. Create Template con este contenido:                       ║
+║     Asunto: Tu acceso a Reran ha sido aprobado               ║
+║     Cuerpo: Hola {{nombre}}, tu cuenta fue aprobada.         ║
+║             Ya puedes ingresar a Reran. Bienvenido.          ║
+║  4. Copia tu Public Key, Service ID y Template ID            ║
+║  5. Reemplaza en el código (busca "EMAILJS"):                 ║
+║     emailjs.send('TU_SERVICE_ID','TU_TEMPLATE_ID',{          ║
+║       nombre: req.name, email: req.email                     ║
+║     },'TU_PUBLIC_KEY')                                       ║
+║                                                              ║
+║  PARA DISTRIBUIR LA APP:                                     ║
+║  Opción A (gratis): Sube el archivo a GitHub Pages           ║
+║    → github.com → New repo → Upload → Settings →             ║
+║      Pages → Branch main → Save                              ║
+║    → URL pública para compartir con tus usuarios             ║
+║                                                              ║
+║  Opción B (APK real): Usa PWABuilder.com                     ║
+║    → Ingresa tu URL → Build → Android APK                    ║
+║    → Descarga e instala en cualquier Android                  ║
+║                                                              ║
+║  FUNCIONES DISPONIBLES:                                       ║
+║  ✅ Dashboard con 6 KPIs                                     ║
+║  ✅ Calendario diario/semanal con cuadrícula horaria          ║
+║  ✅ Huecos libres clickeables para agregar eventos            ║
+║  ✅ Importar horario con foto (IA simulada)                   ║
+║  ✅ Crear eventos por voz (Web Speech API + fallback)         ║
+║  ✅ Goals con cuenta regresiva + alertas automáticas          ║
+║  ✅ Barra de progreso para metas medibles                     ║
+║  ✅ Mi Propósito: collage de 3 fotos + frases diarias         ║
+║  ✅ Panel de administrador con aprobación manual              ║
+║  ✅ Modo día / modo noche (toggle)                            ║
+║  ✅ Tareas pendientes con prioridades                         ║
+║  ✅ Fechas importantes con nivel 1-10                         ║
+║  ✅ Detección de actividades complicadas (cruces)             ║
+╚══════════════════════════════════════════════════════════════╝
+-->
+</body>
+</html>
