@@ -361,53 +361,68 @@ input[type=date]:focus,input[type=time]:focus,input[type=number]:focus { border-
 </head>
 <body>
 
-<!-- ══ LOGIN ══ -->
+<!-- ══ LOGIN / REGISTER ══ -->
 <div id="sl" class="scr on">
   <div style="max-width:400px;width:100%;margin:auto;padding:28px 20px">
     <div class="lg"><div class="crest">🌿</div><h1>Reran</h1><p class="tg">Your intelligent academic planner</p></div>
+    <div style="display:flex;justify-content:center;margin-bottom:20px">
+      <div style="background:rgba(61,170,112,.12);border:1px solid rgba(61,170,112,.3);border-radius:20px;padding:6px 16px;font-size:13px;color:var(--grn4);text-align:center">🎉 Gratis por 30 días — sin tarjeta de crédito</div>
+    </div>
     <div class="lc">
-      <div class="fp" id="fp">
-        <h2>Solicitar acceso</h2>
-        <p class="sub">Cuéntanos quién eres y por qué quieres usar Reran</p>
+      <!-- REGISTER -->
+      <div id="reg-panel">
+        <h2>Crear cuenta</h2>
+        <p class="sub">Empieza gratis hoy mismo</p>
         <div class="fg"><label>Nombre completo</label><input type="text" id="inm" placeholder="María García López"></div>
         <div class="fg"><label>Correo electrónico</label><input type="email" id="iem" placeholder="correo@ejemplo.com"></div>
         <div class="fg"><label>Contraseña</label><input type="password" id="ips" placeholder="Mínimo 8 caracteres"></div>
-        <div class="fg"><label>¿Por qué deseas usar Reran?</label><textarea id="irz" placeholder="Cuéntanos tu motivación para usar esta agenda…"></textarea></div>
-        <button class="b1" onclick="reqAcc()">Enviar Solicitud</button>
-        <div class="notice"><span>🔒</span><span>El administrador revisará tu solicitud y recibirás confirmación por correo al ser aprobado.</span></div>
-        <div style="margin-top:14px;text-align:center;font-size:14px;color:var(--tx3)">¿Ya tienes acceso? <span onclick="showLF()" style="color:var(--grn4);cursor:pointer;text-decoration:underline">Iniciar sesión</span></div>
-        <div id="lif" style="display:none;margin-top:16px;border-top:1px solid var(--bdr);padding-top:16px">
-          <div class="fg"><label>Correo</label><input type="email" id="lie" placeholder="tucorreo@ejemplo.com"></div>
-          <div class="fg"><label>Contraseña</label><input type="password" id="lip" placeholder="Tu contraseña"></div>
-          <button class="b1" onclick="loginU()">Entrar</button>
-        </div>
+        <button class="b1" onclick="doRegister()">Crear cuenta gratis</button>
+        <div style="margin-top:14px;text-align:center;font-size:14px;color:var(--tx3)">¿Ya tienes cuenta? <span onclick="showPanel('login-panel')" style="color:var(--grn4);cursor:pointer;text-decoration:underline">Iniciar sesión</span></div>
       </div>
-      <div class="pp" id="pp">
-        <div class="pi">⏳</div>
-        <h2 style="font-size:24px;margin-bottom:8px;color:var(--crm)">Solicitud enviada</h2>
-        <p style="color:var(--tx3);font-size:15px;font-style:italic;line-height:1.7;margin-bottom:20px">Tu solicitud fue enviada. El administrador la revisará y recibirás respuesta pronto.</p>
-        <div style="background:var(--bg3);border-radius:var(--rs);padding:12px;font-size:14px;color:var(--tx3);font-style:italic;width:100%;text-align:center">📧 <span id="pe"></span></div>
-        <button class="b1" style="margin-top:20px" onclick="devBypass()">▶ Demo: Simular aprobación</button>
-        <button class="b2" onclick="goAdmin()">🔑 Panel de administrador</button>
+      <!-- LOGIN -->
+      <div id="login-panel" style="display:none">
+        <h2>Bienvenido de vuelta</h2>
+        <p class="sub">Ingresa a tu cuenta</p>
+        <div class="fg"><label>Correo electrónico</label><input type="email" id="lie" placeholder="correo@ejemplo.com"></div>
+        <div class="fg"><label>Contraseña</label><input type="password" id="lip" placeholder="Tu contraseña"></div>
+        <button class="b1" onclick="doLogin()">Iniciar sesión</button>
+        <div style="margin-top:14px;text-align:center;font-size:14px;color:var(--tx3)">¿No tienes cuenta? <span onclick="showPanel('reg-panel')" style="color:var(--grn4);cursor:pointer;text-decoration:underline">Regístrate gratis</span></div>
+      </div>
+      <!-- TRIAL EXPIRED -->
+      <div id="expired-panel" style="display:none;text-align:center">
+        <div style="font-size:42px;margin-bottom:16px">⏳</div>
+        <h2 style="margin-bottom:8px">Tu período gratuito terminó</h2>
+        <p style="color:var(--tx3);font-size:15px;font-style:italic;line-height:1.7;margin-bottom:20px">Tus 30 días de prueba han concluido. Activa tu suscripción para continuar.</p>
+        <div style="background:var(--bg3);border-radius:var(--r);padding:20px;margin-bottom:20px;border:1px solid var(--bdr)">
+          <div style="font-size:32px;font-weight:700;color:var(--grn2);margin-bottom:4px">$4.99 <span style="font-size:14px;color:var(--tx3);font-weight:400">/ mes</span></div>
+          <div style="font-size:13px;color:var(--tx3);font-style:italic;margin-bottom:12px">Acceso completo · sin límites</div>
+          <div style="display:flex;flex-direction:column;gap:6px;text-align:left">
+            <div style="font-size:13px;color:var(--tx2)">✓ Dashboard con 6 indicadores clave</div>
+            <div style="font-size:13px;color:var(--tx2)">✓ Calendario con cuadrícula horaria</div>
+            <div style="font-size:13px;color:var(--tx2)">✓ Goals con cuenta regresiva y alertas</div>
+            <div style="font-size:13px;color:var(--tx2)">✓ Mi Propósito + frases diarias</div>
+            <div style="font-size:13px;color:var(--tx2)">✓ Crear eventos por voz</div>
+          </div>
+        </div>
+        <button class="b1" onclick="showToast('Próximamente: pago en línea activado 🚀')">Activar suscripción — $4.99/mes</button>
+        <div style="margin-top:12px"><span onclick="showPanel('login-panel')" style="font-size:13px;color:var(--tx3);cursor:pointer;text-decoration:underline">Volver al inicio</span></div>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ══ ADMIN ══ -->
-<div id="sa" class="scr">
-  <div class="ah"><span class="al">Reran</span><span class="ab">Panel Admin</span><div class="ibt" onclick="backLogin()">✕</div></div>
-  <div style="padding:18px;flex:1;overflow-y:auto">
-    <div style="margin-bottom:18px"><div class="orn" style="margin-bottom:10px">Solicitudes Pendientes</div><p style="font-style:italic;color:var(--tx3);font-size:15px">Aprueba o rechaza cada solicitud. Al aprobar, el postulante recibirá acceso.</p></div>
-    <div id="arl"></div>
-    <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--bdr)"><div class="orn" style="margin-bottom:14px">Usuarios Aprobados</div><div id="aul"></div></div>
+    <div style="margin-top:16px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
+      <span style="font-size:12px;color:var(--tx3)">🔒 Datos seguros</span>
+      <span style="font-size:12px;color:var(--tx3)">📱 Android e iPhone</span>
+      <span style="font-size:12px;color:var(--tx3)">🌙 Modo día / noche</span>
+    </div>
   </div>
 </div>
 
 <!-- ══ APP ══ -->
 <div id="sap" class="scr">
   <div class="ahdr">
-    <span class="alogo">Reran</span>
+    <div style="display:flex;flex-direction:column">
+      <span class="alogo">Reran</span>
+      <span id="trial-banner" style="font-size:10px;color:var(--grn4);letter-spacing:1px"></span>
+    </div>
     <div class="hax">
       <div class="ibt" id="tbtn" onclick="toggleTheme()">🌙</div>
       <div class="ibt" onclick="om('modal-add-event')">＋</div>
@@ -652,90 +667,75 @@ function loadData(){
 }
 
 // ══════════ AUTH ══════════
-function reqAcc(){
+// reqAcc removed — replaced by doRegister/doLogin
+// ── Panel switcher ──
+function showPanel(id){
+  ['reg-panel','login-panel','expired-panel'].forEach(p=>{
+    const el=document.getElementById(p);
+    if(el) el.style.display=p===id?'block':'none';
+  });
+}
+
+// ── Register ──
+function doRegister(){
   const n=document.getElementById('inm').value.trim();
   const e=document.getElementById('iem').value.trim();
   const p=document.getElementById('ips').value.trim();
-  const r=document.getElementById('irz').value.trim();
-  if(!n||!e||!p||!r){alert('Completa todos los campos, incluyendo el motivo.');return}
+  if(!n||!e||!p){alert('Completa todos los campos.');return}
   if(!e.includes('@')){alert('Ingresa un correo válido.');return}
-  S.user={name:n,email:e};
-  if(!S.pending.length)S.pending=[];
-  S.pending.push({id:'r'+Date.now(),name:n,email:e,reason:r,status:'pending'});
-  document.getElementById('fp').classList.add('off');
-  document.getElementById('pp').classList.add('on');
-  document.getElementById('pe').textContent=e;
-
-  // ── Notificar al administrador de nueva solicitud ──
-  emailjs.send('service_Reran','template_Reran',{
-    to_email: 'rojasquispesthefanoo@gmail.com',
-    nombre_admin: 'Administrador',
-    nombre: n,
-    email_usuario: e,
-    motivo: r,
-    accion: 'NUEVA SOLICITUD',
-    mensaje: `Nueva solicitud de acceso a Reran:\nNombre: ${n}\nCorreo: ${e}\nMotivo: "${r}"\n\nIngresa al Panel de Administrador para aprobar o rechazar.`
-  }).catch(err=>console.warn('Notif admin error:',err));
-}
-function showLF(){const l=document.getElementById('lif');l.style.display=l.style.display==='none'?'block':'none'}
-function loginU(){const e=document.getElementById('lie').value.trim();if(!e){alert('Ingresa tu correo.');return}S.user={name:'Usuario',email:e};loadData();enterApp()}
-function devBypass(){loadData();if(!S.user)S.user={name:'Estudiante Demo',email:'demo@reran.app'};enterApp()}
-function enterApp(){document.getElementById('sl').classList.remove('on');document.getElementById('sap').classList.add('on');document.getElementById('fab').style.display='flex';initApp()}
-function goAdmin(){if(!S.pending||!S.pending.length)loadData();document.getElementById('sl').classList.remove('on');document.getElementById('sa').classList.add('on');renderAdmin()}
-function backLogin(){document.getElementById('sa').classList.remove('on');document.getElementById('sl').classList.add('on')}
-
-function renderAdmin(){
-  const pend=(S.pending||[]).filter(r=>r.status==='pending');
-  document.getElementById('arl').innerHTML=pend.length===0
-    ?`<div class="emp"><div class="ei">✅</div><h3>Sin solicitudes</h3><p>No hay solicitudes pendientes.</p></div>`
-    :pend.map(r=>`<div class="rc"><div class="rn">${r.name}</div><div class="re">📧 ${r.email}</div><div class="rr">"${r.reason}"</div><div class="rb"><button class="bok" onclick="approveR('${r.id}')">✓ Permitir acceso</button><button class="bno" onclick="rejectR('${r.id}')">✕ Rechazar</button></div></div>`).join('');
-  document.getElementById('aul').innerHTML=(S.approved||[]).length===0
-    ?`<p style="color:var(--tx3);font-style:italic;font-size:14px">Aún no hay usuarios aprobados.</p>`
-    :(S.approved||[]).map(u=>`<div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg3);border-radius:var(--rs);margin-bottom:8px;border-left:3px solid var(--grn2)"><div style="flex:1"><div style="font-size:16px;font-weight:600">${u.name}</div><div style="font-size:13px;color:var(--tx3);font-style:italic">${u.email} · Aprobado: ${u.at}</div></div><div style="font-size:20px">✅</div></div>`).join('');
+  if(p.length<8){alert('La contraseña debe tener al menos 8 caracteres.');return}
+  // Save user in localStorage
+  const users=JSON.parse(localStorage.getItem('reran_users')||'{}');
+  if(users[e]){alert('Ya existe una cuenta con ese correo. Inicia sesión.');showPanel('login-panel');return}
+  const trialStart=Date.now();
+  users[e]={name:n,password:btoa(p),trialStart,email:e};
+  localStorage.setItem('reran_users',JSON.stringify(users));
+  localStorage.setItem('reran_current',JSON.stringify({name:n,email:e,trialStart}));
+  S.user={name:n,email:e,trialStart};
+  loadData();enterApp();
 }
 
-function approveR(id){
-  const r=S.pending.find(x=>x.id===id);if(!r)return;
-  r.status='approved';
-  r.approving=true;
-  S.approved.push({name:r.name,email:r.email,at:'Hoy'});
-  renderAdmin();
-
-  // ── Notificar al administrador (tu Gmail) ──
-  emailjs.send('service_Reran','template_Reran',{
-    to_email: 'rojasquispesthefanoo@gmail.com',
-    nombre_admin: 'Administrador',
-    nombre: r.name,
-    email_usuario: r.email,
-    motivo: r.reason,
-    accion: 'APROBADO',
-    mensaje: `La solicitud de ${r.name} (${r.email}) ha sido APROBADA en Reran.`
-  }).then(()=>{
-    console.log('✅ Correo de notificación enviado al admin');
-  }).catch(err=>{
-    console.warn('Admin email error:', err);
-  });
-
-  // ── Notificar al usuario aprobado ──
-  emailjs.send('service_Reran','template_Reran',{
-    to_email: r.email,
-    nombre_admin: 'El equipo de Reran',
-    nombre: r.name,
-    email_usuario: r.email,
-    motivo: r.reason,
-    accion: 'BIENVENIDO',
-    mensaje: `Hola ${r.name}, tu solicitud para usar Reran ha sido aprobada. Ya puedes iniciar sesión con tu correo y contraseña. ¡Bienvenido/a!`
-  }).then(()=>{
-    showToast(`✅ Acceso aprobado — Correo enviado a ${r.name}`);
-  }).catch(err=>{
-    showToast(`✅ Aprobado. (Correo pendiente — revisa tu configuración EmailJS)`);
-    console.warn('User email error:', err);
-  });
+// ── Login ──
+function doLogin(){
+  const e=document.getElementById('lie').value.trim();
+  const p=document.getElementById('lip').value.trim();
+  if(!e||!p){alert('Completa todos los campos.');return}
+  const users=JSON.parse(localStorage.getItem('reran_users')||'{}');
+  const u=users[e];
+  if(!u){alert('No encontramos una cuenta con ese correo.');return}
+  if(btoa(p)!==u.password){alert('Contraseña incorrecta.');return}
+  localStorage.setItem('reran_current',JSON.stringify({name:u.name,email:u.email,trialStart:u.trialStart}));
+  S.user={name:u.name,email:u.email,trialStart:u.trialStart};
+  // Check trial
+  const daysElapsed=Math.floor((Date.now()-u.trialStart)/86400000);
+  if(daysElapsed>=30){showPanel('expired-panel');return}
+  loadData();enterApp();
 }
 
-function rejectR(id){
-  const r=S.pending.find(x=>x.id===id);if(!r)return;
-  if(confirm(`¿Rechazar la solicitud de ${r.name}?`)){r.status='rejected';renderAdmin()}
+// ── Auto-login on load ──
+function checkAutoLogin(){
+  try{
+    const cur=JSON.parse(localStorage.getItem('reran_current')||'null');
+    if(cur&&cur.email){
+      const daysElapsed=Math.floor((Date.now()-cur.trialStart)/86400000);
+      if(daysElapsed>=30){showPanel('expired-panel');return}
+      S.user=cur;loadData();enterApp();
+    }
+  }catch(e){}
+}
+
+function enterApp(){
+  document.getElementById('sl').classList.remove('on');
+  document.getElementById('sap').classList.add('on');
+  document.getElementById('fab').style.display='flex';
+  initApp();
+  // Show trial days remaining in notifs
+  if(S.user&&S.user.trialStart){
+    const daysLeft=30-Math.floor((Date.now()-S.user.trialStart)/86400000);
+    if(daysLeft<=7&&daysLeft>0){
+      S.notifs.unshift({text:`⏳ Te quedan ${daysLeft} día${daysLeft===1?'':'s'} de prueba gratuita.`,time:'ahora',read:false});
+    }
+  }
 }
 
 function showToast(msg){
@@ -759,6 +759,15 @@ function initApp(){
   document.getElementById('ed').value=ts;
   document.getElementById('tkd').value=ts;
   updateDash();renderCal();renderTasksFull();renderGoals();renderProp();
+  // Trial banner
+  if(S.user&&S.user.trialStart){
+    const daysLeft=30-Math.floor((Date.now()-S.user.trialStart)/86400000);
+    const banner=document.getElementById('trial-banner');
+    if(banner){
+      if(daysLeft>0) banner.textContent=`${daysLeft}d de prueba`;
+      else banner.textContent='Prueba expirada';
+    }
+  }
 }
 
 // ══════════ DASHBOARD ══════════
